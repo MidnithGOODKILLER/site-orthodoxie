@@ -1,0 +1,362 @@
+📁 Site Orthodoxie
+ └─ index.html
+montgeron.jpg                                                        
+patriarche.jpg
+stihar.jpg
+musique.mp3 
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Orthodoxie</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+/* FOND */
+body {
+    margin:0;
+    font-family: Arial;
+    background:url("montgeron.jpg") center/cover fixed;
+    color:white;
+}
+
+/* HEADER */
+header {
+    background: linear-gradient(90deg, black, red, gold);
+    padding:15px;
+    display:flex;
+    align-items:center;
+}
+
+/* BURGER */
+.menu-btn {
+    font-size:25px;
+    cursor:pointer;
+}
+
+/* MENU DROITE */
+#menu {
+    position:fixed;
+    right:-300px;
+    top:0;
+    width:300px;
+    height:100%;
+    background:black;
+    transition:0.3s;
+}
+
+#menu a {
+    display:block;
+    padding:15px;
+    color:white;
+    text-decoration:none;
+}
+
+#menu a:hover {
+    background:gold;
+    color:black;
+}
+
+/* SLIDER */
+.slider {
+    position:relative;
+    height:60vh;
+}
+
+.slide {
+    position:absolute;
+    width:100%;
+    height:100%;
+    opacity:0;
+    transition:1.5s;
+}
+
+.slide img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.active {opacity:1;}
+
+.prev,.next {
+    position:absolute;
+    top:50%;
+    background:black;
+    padding:10px;
+    cursor:pointer;
+}
+
+.prev {left:10px;}
+.next {right:10px;}
+
+/* SECTIONS */
+section {
+    background:rgba(0,0,0,0.7);
+    margin:20px;
+    padding:20px;
+    border-radius:10px;
+}
+
+/* IMAGES ✅ */
+img {
+    width:100%;
+    border-radius:10px;
+}
+
+/* BOUTON FLASH */
+button {
+    background:gold;
+    padding:10px;
+    animation:flash 1s infinite alternate;
+}
+
+@keyframes flash {
+    from {box-shadow:0 0 5px gold;}
+    to {box-shadow:0 0 20px gold;}
+}
+
+#plus {display:none;}
+
+</style>
+
+<script>
+
+function openMenu(){ 
+    document.getElementById("menu").style.right="0"; 
+}
+
+function closeMenu(){ 
+    document.getElementById("menu").style.right="-300px"; 
+}
+
+/* SLIDER */
+let i=0;
+
+function show(){
+    let slides=document.querySelectorAll(".slide");
+    slides.forEach(s=>s.classList.remove("active"));
+    slides[i].classList.add("active");
+}
+
+function next(){
+    let slides=document.querySelectorAll(".slide");
+    i=(i+1)%slides.length;
+    show();
+}
+
+function prev(){
+    let slides=document.querySelectorAll(".slide");
+    i=(i-1+slides.length)%slides.length;
+    show();
+}
+
+/* AUTO */
+function auto(){
+    next();
+    setTimeout(auto,3000);
+}
+
+/* TEXTE */
+function toggleTexte(){
+    let txt=document.getElementById("plus");
+    let btn=document.getElementById("btn");
+
+    if(txt.style.display==="none"){
+        txt.style.display="block";
+        btn.innerHTML="Afficher moins";
+    }else{
+        txt.style.display="none";
+        btn.innerHTML="Afficher plus";
+    }
+}
+
+window.onload=function(){
+    show();
+    auto();
+}
+
+</script>
+
+</head>
+
+<body>
+
+<!-- ✅ MUSIQUE (IMPORTANT) -->
+<audio controls autoplay loop>
+<source src="musique.mp3" type="audio/mpeg">
+</audio>
+
+<header>
+<span class="menu-btn" onclick="openMenu()">☰</span>
+<h1 style="margin-left:20px;">Orthodoxie</h1>
+</header>
+
+<!-- ✅ MENU FONCTIONNEL -->
+<div id="menu">
+<a href="#" onclick="closeMenu()">❌ Fermer</a>
+<a href="#slider">📸 Images</a>
+<a href="#histoire">📜 Histoire</a>
+<a href="#patriarche">👑 Patriarche</a>
+<a href="#stihar">👕 STIHAR</a>
+<a href="#eglise">⛪ Églises</a>
+<a href="#contact">📩 Contact</a>
+</div>
+
+<!-- ✅ SLIDER -->
+<div class="slider" id="slider">
+
+<div class="slide active">
+<img src="montgeron.jpg">
+</div>
+
+<div class="slide">
+<img src="patriarche.jpg">
+</div>
+
+<div class="slide">
+<img src="stihar.jpg">
+</div>
+
+<div class="prev" onclick="prev()">⬅</div>
+<div class="next" onclick="next()">➡</div>
+
+</div>
+
+<!-- ✅ HISTOIRE LONGUE -->
+<section id="histoire">
+<h2>Histoire</h2>
+
+<p>
+L’orthodoxie est une des plus anciennes traditions chrétiennes.
+Elle remonte directement aux apôtres.
+Elle s’est développée dans l’Empire byzantin.
+Elle a conservé ses traditions pendant des siècles.
+Les cérémonies sont longues et chantées.
+</p>
+
+<p>
+La langue utilisée est le slavon,
+qui est une ancienne langue russe religieuse.
+Les chants sont très importants.
+Les églises sont décorées avec des icônes.
+Les fidèles allument des bougies.
+</p>
+
+<p id="plus">
+En 1054, il y a eu le grand schisme.
+Les orthodoxes se séparent des catholiques.
+Les traditions restent très anciennes.
+Les prêtres portent des vêtements appelés STIHAR.
+Ils portent aussi une croix autour du cou.
+Les cérémonies peuvent durer plusieurs heures.
+L’orthodoxie est très présente en Russie.
+Elle existe aussi en Grèce et en Europe de l’Est.
+Les églises ont souvent des dômes dorés.
+Elles sont magnifiques à l’intérieur.
+Les chants donnent une ambiance spirituelle.
+La lumière des bougies symbolise la foi.
+Les traditions sont respectées encore aujourd’hui.
+</p>
+
+<button id="btn" onclick="toggleTexte()">Afficher plus</button>
+
+</section>
+
+<!-- ✅ STIHAR -->
+<section id="stihar">
+<h2>STIHAR</h2>
+
+<img src="stihar.jpg">
+
+<p>
+Le STIHAR est un vêtement porté par les prêtres et servants d’autel.
+Il est souvent doré ou coloré.
+</p>
+
+</section>
+
+<!-- ✅ PATRIARCHE -->
+<section id="patriarche">
+<h2>Patriarche</h2>
+
+<img src="patriarche.jpg">
+
+<p>
+Le patriarche est le chef de l’Église orthodoxe.
+</p>
+
+</section>
+
+<!-- ✅ EGLISE -->
+<section id="eglise">
+<h2>Église</h2>
+
+<img src="montgeron.jpg">
+
+<p>
+Exemples d’églises : Moscou et Montgeron.
+</p>
+
+</section>
+
+<!-- ✅ CONTACT -->
+<section id="contact">
+<h2>Contact</h2>
+<p>konstantinnellou@gmail.com</p>
+</section>
+
+</body>
+</html>
+
+/* ✅ VERSION MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    header h1 {
+        font-size: 20px;
+    }
+
+    .slider {
+        height: 40vh; /* plus petit sur téléphone */
+    }
+
+    /* sections */
+    section {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    /* images */
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* boutons slider plus petits */
+    .prev, .next, .pause {
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    /* menu (hamburger) */
+    #menu {
+        width: 200px; /* plus petit sur téléphone */
+    }
+
+    #menu a {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    /* bouton afficher plus */
+    button {
+        width: 100%;
+    }
+
+}
