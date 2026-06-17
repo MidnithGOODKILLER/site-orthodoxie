@@ -3,4 +3,312 @@
 montgeron.jpg                                                        
 patriarche.jpg
 stihar.jpg
-musique.mp3 
+nouveau.mp3 
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Orthodoxie</title>
+
+<style>
+
+/* FOND */
+body{
+margin:0;
+font-family: Arial;
+background: url("montgeron.jpg") center/cover fixed;
+color:white;
+}
+
+/* HEADER */
+header{
+background: linear-gradient(90deg, black, red, gold);
+padding:15px;
+display:flex;
+align-items:center;
+}
+
+.menu-btn{
+font-size:30px;
+cursor:pointer;
+}
+
+/* MENU */
+#menu{
+position:fixed;
+right:-260px;
+top:0;
+width:260px;
+height:100%;
+background:black;
+transition:0.3s;
+z-index:1000;
+}
+
+#menu a{
+display:block;
+padding:15px;
+color:white;
+text-decoration:none;
+}
+
+#menu a:hover{
+background:gold;
+color:black;
+}
+
+/* SLIDER */
+.slider{
+position:relative;
+height:60vh;
+overflow:hidden;
+}
+
+.slide{
+position:absolute;
+width:100%;
+height:100%;
+opacity:0;
+transition:1.5s;
+}
+
+.slide img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.active{opacity:1}
+
+/* sections */
+section{
+background:rgba(0,0,0,0.7);
+margin:20px;
+padding:20px;
+border-radius:10px;
+}
+
+/* bouton */
+button{
+background:gold;
+padding:12px;
+border:none;
+cursor:pointer;
+}
+
+/* calendrier */
+#cal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+}
+
+.modal{
+background:black;
+margin:5% auto;
+padding:20px;
+max-width:500px;
+border-radius:10px;
+text-align:center;
+}
+
+/* grid */
+.grid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:5px;
+}
+
+.day{
+background:gold;
+color:black;
+padding:10px;
+border-radius:5px;
+}
+
+.today{
+background:red;
+color:white;
+}
+
+/* responsive */
+@media(max-width:600px){
+.slider{height:40vh;}
+}
+
+</style>
+
+<script>
+
+/* MENU */
+function openMenu(){
+document.getElementById("menu").style.right="0";
+}
+function closeMenu(){
+document.getElementById("menu").style.right="-260px";
+}
+
+/* SLIDER */
+let i=0;
+
+function showSlide(){
+let slides=document.querySelectorAll(".slide");
+slides.forEach(s=>s.classList.remove("active"));
+slides[i].classList.add("active");
+}
+
+function nextSlide(){
+let slides=document.querySelectorAll(".slide");
+i=(i+1)%slides.length;
+showSlide();
+}
+
+setInterval(nextSlide,3000);
+
+window.onload=showSlide;
+
+/* CALENDRIER */
+function toggleCal(){
+
+let c=document.getElementById("cal");
+
+if(c.style.display=="block"){
+c.style.display="none";
+return;
+}
+
+c.style.display="block";
+
+let d=new Date();
+
+let jours=["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+let mois=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+
+document.getElementById("date").innerHTML=
+jours[d.getDay()]+" "+d.getDate()+" "+mois[d.getMonth()];
+
+/* EVANGILE RÉEL (visible texte) */
+let evangiles=[
+"Matthieu 5:1-12",
+"Marc 2:1-12",
+"Luc 6:17-23",
+"Jean 1:1-18",
+"Actes des apôtres",
+"Lecture du jour",
+"Épître"
+];
+
+document.getElementById("evangile").innerHTML=evangiles[d.getDay()];
+
+/* JEÛNE */
+document.getElementById("jeune").innerHTML=
+(d.getDay()==3||d.getDay()==5)?
+"✅ Jeûne (pas de viande ni produits laitiers)":
+"❌ Pas de jeûne";
+
+/* GRID */
+let grid=document.getElementById("grid");
+grid.innerHTML="";
+
+let days=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
+
+for(let j=1;j<=days;j++){
+let el=document.createElement("div");
+el.className="day";
+
+if(j==d.getDate()){el.classList.add("today");}
+
+el.innerHTML=j;
+grid.appendChild(el);
+}
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<header>
+<span class="menu-btn" onclick="openMenu()">☰</span>
+<h1 style="margin-left:20px;">Orthodoxie</h1>
+</header>
+
+<!-- MENU -->
+<div id="menu">
+# onclick="closeMenu()">❌ Fermer</a>
+#histoire📜 Histoire</a>
+#patriarche👑 Patriarche</a>
+r">👕 STIHAR</a>
+#contact📩 Contact</a>
+</div>
+
+<!-- SLIDER -->
+<div class="slider">
+<div class="slide active">montgeron.jpg</div>
+<div class="slide">patriarche.jpg</div>
+<div class="slide">stihar.jpg</div>
+</div>
+
+<!-- HISTOIRE -->
+<section id="histoire">
+<h2>📜 Histoire</h2>
+<p>L’orthodoxie est une tradition ancienne issue des apôtres.</p>
+</section>
+
+<!-- PATRIARCHE -->
+<section id="patriarche">
+<h2>👑 Patriarche Kirill</h2>
+patriarche.jpg
+<p>
+Kirill est le patriarche de Moscou.
+Il dirige l’Église orthodoxe russe et guide les fidèles.
+</p>
+</section>
+
+<!-- STIHAR -->
+<section id="stihar">
+<h2>👕 STIHAR</h2>
+stihar.jpg
+<p>
+Le STIHAR est un vêtement porté par les prêtres et servants d’autel.
+</p>
+</section>
+
+<!-- CALENDRIER -->
+<section>
+<h2>📅 Calendrier Orthodoxe</h2>
+<button onclick="toggleCal()">Ouvrir / Fermer</button>
+</section>
+
+<div id="cal">
+<div class="modal">
+<h2>Calendrier</h2>
+
+<p id="date"></p>
+<p><b>Évangile :</b> <span id="evangile"></span></p>
+<p><b>Jeûne :</b> <span id="jeune"></span></p>
+
+<div id="grid" class="grid"></div>
+
+<button onclick="toggleCal()">Fermer</button>
+
+</div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+<h2>📩 Contact</h2>
+<p>konstantinnellou@gmail.com</p>
+</section>
+
+</body>
+</html>
