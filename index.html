@@ -90,9 +90,53 @@ background:gold;
 border:none;
 cursor:pointer;
 }
+.slider{
+position:relative;
+height:60vh;
+overflow:hidden;
+}
+
+.slide{
+position:absolute;
+width:100%;
+height:100%;
+opacity:0;
+transition:1.5s;
+}
+
+.slide img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+/* zoom cinéma */
+.slide.active{
+opacity:1;
+animation:zoom 6s infinite alternate;
+}
+
+@keyframes zoom{
+from{transform:scale(1);}
+to{transform:scale(1.1);}
+}
 
 </style>
+let i=0;
 
+function slider(){
+
+let s=document.querySelectorAll(".slide");
+
+s.forEach(x=>x.classList.remove("active"));
+
+s[i].classList.add("active");
+
+i=(i+1)%s.length;
+
+}
+
+setInterval(slider,3000);
 <script>
 
 /* MENU */
@@ -196,7 +240,21 @@ cal();showQ();
 </script>
 
 </head>
+<div class="slider">
 
+<div class="slide active">
+<img src="montgeron.jpg">
+</div>
+
+<div class="slide">
+<img src="patriarche.jpg">
+</div>
+
+<div class="slide">
+<img src="stihar.jpg">
+</div>
+
+</div>
 <body>
 
 <!-- MUSIQUE ✅ -->
