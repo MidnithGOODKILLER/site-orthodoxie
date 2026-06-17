@@ -306,6 +306,91 @@ Contact : konstantinnellou@gmail.com
 
 </footer>
 ``
+ <section>
+<h2>📅 Calendrier interactif Orthodoxe</h2>
+
+<table border="1" style="width:100%; text-align:center; background:black;">
+<tr>
+<td onclick="showInfo(1)">1</td>
+<td onclick="showInfo(2)">2</td>
+<td onclick="showInfo(3)">3</td>
+<td onclick="showInfo(4)">4</td>
+<td onclick="showInfo(5)">5</td>
+<td onclick="showInfo(6)">6</td>
+<td onclick="showInfo(7)">7</td>
+</tr>
+</table>
+
+<p id="info"></p>
+
+</section>
+<section>
+<h2>📅 Calendrier interactif Orthodoxe</h2>
+
+<table border="1" style="width:100%; text-align:center; background:black;">
+<tr>
+<td onclick="showInfo(1)">1</td>
+<td onclick="showInfo(2)">2</td>
+<td onclick="showInfo(3)">3</td>
+<td onclick="showInfo(4)">4</td>
+<td onclick="showInfo(5)">5</td>
+<td onclick="showInfo(6)">6</td>
+<td onclick="showInfo(7)">7</td>
+</tr>
+</table>
+<script>
+<p id="info"></p>
+
+</section>
+function showInfo(jour){
+
+let texte="";
+
+/* EXEMPLES */
+if(jour==1){
+texte="🟡 Carême - Évangile: Matthieu 5";
+}
+else if(jour==3){
+texte="🔴 Jour de jeûne - pas de viande";
+}
+else if(jour==5){
+texte="🔴 Jour de jeûne - pas produits laitiers";
+}
+else{
+texte="📖 Évangile : Lecture du jour";
+}
+<p id="evangileTexte">
+📖 "Heureux les pauvres en esprit, car le royaume des cieux est à eux"
+</p>
+document.getElementById("info").innerHTML = texte;
+
+}
+</script>
+<section>
+
+<h2>🎮 Quiz Orthodoxie</h2>
+
+<p>Qui est le chef de l’Église orthodoxe russe ?</p>
+
+<button onclick="reponse('faux')">Le pape</button>
+<button onclick="reponse('bon')">Le patriarche</button>
+
+<p id="resultat"></p>
+
+</section>
+``
+ <script>
+
+function reponse(rep){
+
+if(rep=="bon"){
+document.getElementById("resultat").innerHTML="✅ Bonne réponse !";
+}else{
+document.getElementById("resultat").innerHTML="❌ Faux !";
+}
+
+}
+</script>
 <body>
 
 <header>
@@ -334,7 +419,8 @@ stihar">👕 STIHAR</a>
 </div>
 
 <div class="slide">
-<img src="patriarche.jpg">
+<img src="patriarche.jpg" style="width:100%; border-radius:10px;">
+
 </div>
 
 <div class="slide">
