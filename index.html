@@ -17,7 +17,7 @@ nouveau.mp3
 body{
 margin:0;
 font-family:Arial;
-background:linear-gradient(black, darkred, black);
+background:linear-gradient(darkred, black);
 color:white;
 }
 
@@ -27,6 +27,8 @@ background:linear-gradient(90deg, black, red, gold);
 padding:15px;
 display:flex;
 align-items:center;
+position:sticky;
+top:0;
 }
 
 /* BURGER */
@@ -39,17 +41,24 @@ cursor:pointer;
 #menu{
 position:fixed;
 top:0;
-right:-260px;
-width:260px;
+right:-280px;
+width:280px;
 height:100%;
 background:black;
 transition:0.4s;
+z-index:999;
 }
 
 #menu a{
 display:block;
 padding:15px;
 color:white;
+text-decoration:none;
+}
+
+#menu a:hover{
+background:gold;
+color:black;
 }
 
 /* SECTION */
@@ -60,7 +69,7 @@ padding:20px;
 border-radius:10px;
 }
 
-/* IMAGES */
+/* IMAGE */
 img{
 width:100%;
 border-radius:10px;
@@ -75,10 +84,9 @@ gap:5px;
 
 .day{
 background:purple;
-color:white;
-padding:10px;
-text-align:center;
+padding:15px;
 cursor:pointer;
+text-align:center;
 }
 
 .day:hover{
@@ -88,21 +96,15 @@ color:black;
 
 .today{
 background:red;
-color:white;
 }
 
 /* QUIZ */
 button{
+margin:5px;
+padding:10px;
+cursor:pointer;
 background:gold;
 border:none;
-padding:10px;
-margin:5px;
-cursor:pointer;
-}
-
-footer{
-text-align:center;
-margin-top:40px;
 }
 
 </style>
@@ -112,54 +114,52 @@ margin-top:40px;
 /* MENU */
 function toggleMenu(){
 let m=document.getElementById("menu");
-m.style.right = (m.style.right=="0px") ? "-260px" : "0px";
+m.style.right = (m.style.right=="0px") ? "-280px" : "0px";
 }
 
 /* CALENDRIER */
-function createCalendar(){
+function createCal(){
 
 let cal=document.getElementById("calendar");
 let info=document.getElementById("info");
 
-let today=new Date();
-let days=new Date(today.getFullYear(),today.getMonth()+1,0).getDate();
+let d=new Date();
+let days=new Date(d.getFullYear(), d.getMonth()+1,0).getDate();
 
 for(let i=1;i<=days;i++){
 
-let d=document.createElement("div");
-d.className="day";
-d.innerHTML=i;
+let el=document.createElement("div");
+el.className="day";
+el.innerHTML=i;
 
-if(i==today.getDate()){
-d.classList.add("today");
+if(i==d.getDate()){
+el.classList.add("today");
 }
 
-/* CLIC */
-d.onclick=function(){
+el.onclick=function(){
 
-let dayIndex=new Date(today.getFullYear(),today.getMonth(),i).getDay();
+let j=new Date(d.getFullYear(), d.getMonth(), i).getDay();
 
-/* EVANGILE TEXTE */
-let evangile=[
-"📖 Heureux les pauvres en esprit...",
-"📖 Jésus enseigne sur le pardon...",
-"📖 Aimez vos ennemis...",
-"📖 Au commencement était la Parole...",
-"📖 Les apôtres annoncent la foi...",
-"📖 Lettre aux croyants...",
+/* TEXTE EVANGILE */
+let text=[
+"📖 Heureux les pauvres en esprit, car le royaume des cieux est à eux",
+"📖 Jésus pardonne et enseigne l’amour",
+"📖 Aimez vos ennemis",
+"📖 Au commencement était la Parole",
+"📖 Les apôtres annoncent Dieu",
+"📖 Lecture de l’Église",
 "📖 Lecture spirituelle"
 ];
 
-/* JEUNE */
-let jeune=(dayIndex==3 || dayIndex==5)
-? "🔴 Jour de jeûne (Carême / mercredi / vendredi)"
-: "⚪ Pas de jeûne";
+let jeune=(j==3 || j==5)
+?"🔴 Jour de jeûne (pas de viande)"
+:"⚪ Pas de jeûne";
 
-info.innerHTML=evangile[dayIndex]+"<br>"+jeune;
+info.innerHTML=text[j]+"<br>"+jeune;
 
 };
 
-cal.appendChild(d);
+cal.appendChild(el);
 
 }
 
@@ -168,18 +168,18 @@ cal.appendChild(d);
 /* QUIZ */
 let score=0;
 
-function quiz(rep){
+function q(rep){
 
 if(rep=="bon"){
 score++;
-document.getElementById("result").innerHTML="✅ Bonne réponse ! Score : "+score;
+document.getElementById("res").innerHTML="✅ Bonne réponse | Score : "+score;
 }else{
-document.getElementById("result").innerHTML="❌ Faux ! Score : "+score;
+document.getElementById("res").innerHTML="❌ Faux | Score : "+score;
 }
 
 }
 
-window.onload=createCalendar;
+window.onload=createCal;
 
 </script>
 
@@ -187,22 +187,22 @@ window.onload=createCalendar;
 
 <body>
 
+<!-- MUSIQUE -->
+<audio autoplay loop controls>
+nouveau.mp3
+</audio>
+
 <header>
 <span class="menu-btn" onclick="toggleMenu()">☰</span>
 <h1 style="margin-left:20px;">Orthodoxie</h1>
 </header>
 
-<audio autoplay loop hidden>
-    nouveau.mp3
-</audio>
-
 <!-- MENU -->
 <div id="menu">
-Accueil</a>
 #histoireHistoire</a>
 #patriarchePatriarche</a>
 #stiharSTIHAR</a>
-#calendrierCalendrier</a>
+#calCalendrier</a>
 #quizQuiz</a>
 #contactContact</a>
 </div>
@@ -211,13 +211,10 @@ Accueil</a>
 <section id="histoire">
 <h2>📜 Histoire</h2>
 <p>
-L’orthodoxie est une religion chrétienne ancienne issue des apôtres.
-Elle s’est développée dans l’Empire byzantin.
-La langue liturgique est le slavon.
-Les traditions sont restées très anciennes.
-Les cérémonies sont longues et chantées.
-Les fidèles allument des bougies.
-Les églises sont décorées d’icônes.
+L’orthodoxie vient des apôtres et de l’Empire byzantin.
+On utilise le slavon (ancienne langue russe).
+Les traditions sont très anciennes.
+Les cérémonies sont chantées.
 </p>
 </section>
 
@@ -225,46 +222,15 @@ Les églises sont décorées d’icônes.
 <section id="patriarche">
 <h2>👑 Patriarche Kirill</h2>
 patriarche.jpg
-<p>Kirill est le chef de l’Église orthodoxe russe.</p>
+<p>Chef de l’Église orthodoxe russe.</p>
 </section>
 
 <!-- STIHAR -->
 <section id="stihar">
 <h2>👕 STIHAR</h2>
 stihar.jpg
-<p>Le STIHAR est le vêtement des prêtres.</p>
+<p>Vêtement des prêtres et servants d’autel.</p>
 </section>
 
 <!-- CALENDRIER -->
-<section id="calendrier">
-<h2>📅 Calendrier Orthodoxe</h2>
-
-<div id="calendar"></div>
-
-<p id="info"></p>
-</section>
-
-<!-- QUIZ -->
-<section id="quiz">
-<h2>🎮 Quiz</h2>
-
-<p>Qui est le chef de l’Église orthodoxe russe ?</p>
-
-<button onclick="quiz('mauvais')">Le pape</button>
-<button onclick="quiz('bon')">Le patriarche</button>
-
-<p id="result"></p>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-<h2>📩 Contact</h2>
-<p>Pour plus de renseignements : konstantinnellou@gmail.com</p>
-</section>
-
-<footer>
-<p>© Orthodoxie</p>
-</footer>
-
-</body>
-</html>
+<section id="cal">
