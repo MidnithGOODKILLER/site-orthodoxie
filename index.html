@@ -4,13 +4,11 @@ montgeron.jpg
 patriarche.jpg
 stihar.jpg
 nouveau.mp3 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="viewport" content="width=device-width">
 <title>Orthodoxie</title>
 
 <style>
@@ -18,8 +16,8 @@ nouveau.mp3
 /* FOND */
 body{
 margin:0;
-font-family: Arial;
-background:url("montgeron.jpg") center/cover fixed;
+font-family:Arial;
+background:linear-gradient(black, darkred, black);
 color:white;
 }
 
@@ -46,45 +44,12 @@ width:260px;
 height:100%;
 background:black;
 transition:0.4s;
-z-index:999;
 }
 
 #menu a{
 display:block;
 padding:15px;
 color:white;
-text-decoration:none;
-}
-
-#menu a:hover{
-background:gold;
-color:black;
-}
-
-/* SLIDER CINÉMA */
-.slider{
-position:relative;
-height:60vh;
-overflow:hidden;
-}
-
-.slide{
-position:absolute;
-width:100%;
-height:100%;
-opacity:0;
-transition:1.5s;
-}
-
-.slide img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.active{
-opacity:1;
-transform:scale(1.1);
 }
 
 /* SECTION */
@@ -95,302 +60,131 @@ padding:20px;
 border-radius:10px;
 }
 
-/* IMAGE */
+/* IMAGES */
 img{
 width:100%;
 border-radius:10px;
 }
 
-/* BUTTON */
-button{
-background:gold;
-padding:10px;
-border:none;
-cursor:pointer;
-margin-top:10px;
-}
-/* CALENDRIER STYLE CINÉMA */
-#calSection {
-background: rgba(0,0,0,0.8);
-padding:20px;
-margin:20px;
-border-radius:15px;
-box-shadow: 0 0 20px gold;
-animation: fadeIn 1s ease;
-}
-
-#calendar {
+/* CALENDRIER */
+#calendar{
 display:grid;
-grid-template-columns: repeat(7, 1fr);
-gap:8px;
-margin-top:20px;
+grid-template-columns:repeat(7,1fr);
+gap:5px;
 }
 
-.day {
-background: linear-gradient(45deg, grey, purple);
-color:purple;
-padding:12px;
+.day{
+background:purple;
+color:white;
+padding:10px;
 text-align:center;
-border-radius:10px;
 cursor:pointer;
-transition:0.3s;
-font-weight:bold;
 }
 
-/* effet cinéma hover */
-.day:hover {
-transform:scale(1.2);
-box-shadow:0 0 20px gold;
+.day:hover{
 background:white;
+color:black;
 }
 
-/* jour actuel */
-.today {
+.today{
 background:red;
 color:white;
-animation: pulse 1s infinite alternate;
 }
 
-/* animation lumière */
-@keyframes pulse {
-from { box-shadow:0 0 5px red; }
-to { box-shadow:0 0 25px red; }
+/* QUIZ */
+button{
+background:gold;
+border:none;
+padding:10px;
+margin:5px;
+cursor:pointer;
 }
 
-/* animation apparition */
-@keyframes fadeIn {
-from {opacity:0; transform:translateY(30px);}
-to {opacity:1; transform:translateY(0);}
-}
-``
-
-footer {
-background: linear-gradient(90deg, black, purple, red, gold);
-padding:20px;
+footer{
 text-align:center;
 margin-top:40px;
-border-top:3px solid gold;
-animation: glowFooter 2s infinite alternate;
 }
 
-@keyframes glowFooter {
-from { box-shadow:0 0 10px gold; }
-to { box-shadow:0 0 30px gold; }
-}
-
-footer p {
-margin:10px;
-}
 </style>
 
 <script>
 
-/* MENU FIX */
+/* MENU */
 function toggleMenu(){
-let menu=document.getElementById("menu");
+let m=document.getElementById("menu");
+m.style.right = (m.style.right=="0px") ? "-260px" : "0px";
+}
 
-if(menu.style.right=="0px"){
-menu.style.right="-260px";
+/* CALENDRIER */
+function createCalendar(){
+
+let cal=document.getElementById("calendar");
+let info=document.getElementById("info");
+
+let today=new Date();
+let days=new Date(today.getFullYear(),today.getMonth()+1,0).getDate();
+
+for(let i=1;i<=days;i++){
+
+let d=document.createElement("div");
+d.className="day";
+d.innerHTML=i;
+
+if(i==today.getDate()){
+d.classList.add("today");
+}
+
+/* CLIC */
+d.onclick=function(){
+
+let dayIndex=new Date(today.getFullYear(),today.getMonth(),i).getDay();
+
+/* EVANGILE TEXTE */
+let evangile=[
+"📖 Heureux les pauvres en esprit...",
+"📖 Jésus enseigne sur le pardon...",
+"📖 Aimez vos ennemis...",
+"📖 Au commencement était la Parole...",
+"📖 Les apôtres annoncent la foi...",
+"📖 Lettre aux croyants...",
+"📖 Lecture spirituelle"
+];
+
+/* JEUNE */
+let jeune=(dayIndex==3 || dayIndex==5)
+? "🔴 Jour de jeûne (Carême / mercredi / vendredi)"
+: "⚪ Pas de jeûne";
+
+info.innerHTML=evangile[dayIndex]+"<br>"+jeune;
+
+};
+
+cal.appendChild(d);
+
+}
+
+}
+
+/* QUIZ */
+let score=0;
+
+function quiz(rep){
+
+if(rep=="bon"){
+score++;
+document.getElementById("result").innerHTML="✅ Bonne réponse ! Score : "+score;
 }else{
-menu.style.right="0px";
-}
-}
-
-/* SLIDER */
-let index=0;
-
-function showSlides(){
-let slides=document.querySelectorAll(".slide");
-
-slides.forEach(s=>s.classList.remove("active"));
-
-slides[index].classList.add("active");
-
-index++;
-if(index>=slides.length){
-index=0;
+document.getElementById("result").innerHTML="❌ Faux ! Score : "+score;
 }
 
 }
 
-setInterval(showSlides,3000);
-
-/* TEXTE */
-function toggleText(){
-let txt=document.getElementById("more");
-let btn=document.getElementById("btn");
-
-if(txt.style.display=="none"){
-txt.style.display="block";
-btn.innerHTML="Voir moins";
-}else{
-txt.style.display="none";
-btn.innerHTML="Voir plus";
-}
-}
+window.onload=createCalendar;
 
 </script>
 
 </head>
- 
 
-<section id="calSection">
-<h2>📅 Calendrier Orthodoxe</h2>
-
-<div id="calendar"></div>
-
-<p id="infoJour"></p>
-
-</section>
-<script>
-
-let today = new Date();
-let calendar = document.getElementById("calendar");
-
-let year = today.getFullYear();
-let month = today.getMonth();
-
-let days = new Date(year, month+1, 0).getDate();
-
-for(let i=1;i<=days;i++){
-
-let div = document.createElement("div");
-div.className="day";
-div.innerHTML = i;
-
-/* jour actuel */
-if(i === today.getDate()){
-div.classList.add("today");
-}
-
-/* clic */
-div.onclick = function(){
-
-let jour = new Date(year, month, i).getDay();
-
-let evangiles=[
-"Matthieu 5",
-"Marc 2",
-"Luc 6",
-"Jean 1",
-"Actes",
-"Épître",
-"Lecture liturgique"
-];
-
-let jeune = (jour==3 || jour==5)
-? "✅ Jeûne (pas de viande)"
-: "❌ Pas de jeûne";
-
-document.getElementById("infoJour").innerHTML =
-"📅 Jour : "+i+
-" | 📖 Évangile : "+evangiles[jour]+
-" | "+jeune;
-
-};
-
-calendar.appendChild(div);
-
-}
-
-</script>
-<footer>
-
-<h3>🌐 Orthodoxie</h3>
-
-<p>
-Site sur la religion orthodoxe<br>
-Langue : slavon (ancienne langue russe)<br>
-Contact : konstantinnellou@gmail.com
-</p>
-
-</footer>
-``
- <section>
-<h2>📅 Calendrier interactif Orthodoxe</h2>
-
-<table border="1" style="width:100%; text-align:center; background:black;">
-<tr>
-<td onclick="showInfo(1)">1</td>
-<td onclick="showInfo(2)">2</td>
-<td onclick="showInfo(3)">3</td>
-<td onclick="showInfo(4)">4</td>
-<td onclick="showInfo(5)">5</td>
-<td onclick="showInfo(6)">6</td>
-<td onclick="showInfo(7)">7</td>
-</tr>
-</table>
-
-<p id="info"></p>
-
-</section>
-<section>
-<h2>📅 Calendrier interactif Orthodoxe</h2>
-
-<table border="1" style="width:100%; text-align:center; background:black;">
-<tr>
-<td onclick="showInfo(1)">1</td>
-<td onclick="showInfo(2)">2</td>
-<td onclick="showInfo(3)">3</td>
-<td onclick="showInfo(4)">4</td>
-<td onclick="showInfo(5)">5</td>
-<td onclick="showInfo(6)">6</td>
-<td onclick="showInfo(7)">7</td>
-</tr>
-</table>
-<script>
-<p id="info"></p>
-
-</section>
-function showInfo(jour){
-
-let texte="";
-
-/* EXEMPLES */
-if(jour==1){
-texte="🟡 Carême - Évangile: Matthieu 5";
-}
-else if(jour==3){
-texte="🔴 Jour de jeûne - pas de viande";
-}
-else if(jour==5){
-texte="🔴 Jour de jeûne - pas produits laitiers";
-}
-else{
-texte="📖 Évangile : Lecture du jour";
-}
-<p id="evangileTexte">
-📖 "Heureux les pauvres en esprit, car le royaume des cieux est à eux"
-</p>
-document.getElementById("info").innerHTML = texte;
-
-}
-</script>
-<section>
-
-<h2>🎮 Quiz Orthodoxie</h2>
-
-<p>Qui est le chef de l’Église orthodoxe russe ?</p>
-
-<button onclick="reponse('faux')">Le pape</button>
-<button onclick="reponse('bon')">Le patriarche</button>
-
-<p id="resultat"></p>
-
-</section>
-``
- <script>
-
-function reponse(rep){
-
-if(rep=="bon"){
-document.getElementById("resultat").innerHTML="✅ Bonne réponse !";
-}else{
-document.getElementById("resultat").innerHTML="❌ Faux !";
-}
-
-}
-</script>
 <body>
 
 <header>
@@ -398,92 +192,79 @@ document.getElementById("resultat").innerHTML="❌ Faux !";
 <h1 style="margin-left:20px;">Orthodoxie</h1>
 </header>
 
+<audio autoplay loop hidden>
+    nouveau.mp3
+</audio>
+
 <!-- MENU -->
 <div id="menu">
-
-#histoire">📜 Histoire</a>
-
-riarche">👑 Patriarche</a>
-
-stihar">👕 STIHAR</a>
-
-#contact">📩 Contact</a>
-
-</div>
-
-<!-- SLIDER -->
-<div class="slider">
-
-<div class="slide active">
-<img src="montgeron.jpg">
-</div>
-
-<div class="slide">
-<img src="patriarche.jpg" style="width:100%; border-radius:10px;">
-
-</div>
-
-<div class="slide">
-<img src="stihar.jpg" style="width:100%; border-radius:10px;">
-</div>
-
+Accueil</a>
+#histoireHistoire</a>
+#patriarchePatriarche</a>
+#stiharSTIHAR</a>
+#calendrierCalendrier</a>
+#quizQuiz</a>
+#contactContact</a>
 </div>
 
 <!-- HISTOIRE -->
 <section id="histoire">
-
 <h2>📜 Histoire</h2>
-
 <p>
-L’orthodoxie est une tradition chrétienne ancienne.
-Elle vient des apôtres et de l’Empire byzantin.
-Les cérémonies sont longues et chantées.
-La langue utilisée est le slavon, ancienne langue russe.
-</p>
-
-<div id="more" style="display:none;">
-
-<p>
-Les églises sont décorées avec des icônes.
-Les fidèles allument des bougies pour prier.
-L’orthodoxie s’est séparée des catholiques en 1054.
-Elle est très présente en Russie et en Grèce.
+L’orthodoxie est une religion chrétienne ancienne issue des apôtres.
+Elle s’est développée dans l’Empire byzantin.
+La langue liturgique est le slavon.
 Les traditions sont restées très anciennes.
+Les cérémonies sont longues et chantées.
+Les fidèles allument des bougies.
+Les églises sont décorées d’icônes.
 </p>
-
-</div>
-
-<button onclick="toggleText()" id="btn">Voir plus</button>
-
 </section>
 
 <!-- PATRIARCHE -->
 <section id="patriarche">
-
 <h2>👑 Patriarche Kirill</h2>
-
-<img src="patriarche.jpg">
-
-<p>
-Kirill est le chef de l'Église orthodoxe russe.
-Il dirige les grandes cérémonies et guide les fidèles.
-</p>
-
+patriarche.jpg
+<p>Kirill est le chef de l’Église orthodoxe russe.</p>
 </section>
 
 <!-- STIHAR -->
 <section id="stihar">
+<h2>👕 STIHAR</h2>
+stihar.jpg
+<p>Le STIHAR est le vêtement des prêtres.</p>
+</section>
 
-<img src="stihar.jpg" style="width:100%; border-radius:10px;">
+<!-- CALENDRIER -->
+<section id="calendrier">
+<h2>📅 Calendrier Orthodoxe</h2>
 
-<img src="stihar.jpg">
+<div id="calendar"></div>
 
-<p>
-Le STIHAR est un vêtement porté par les prêtres et servants d’autel.
-Il peut être coloré et symbolise la pureté.
-</p>
+<p id="info"></p>
+</section>
 
+<!-- QUIZ -->
+<section id="quiz">
+<h2>🎮 Quiz</h2>
+
+<p>Qui est le chef de l’Église orthodoxe russe ?</p>
+
+<button onclick="quiz('mauvais')">Le pape</button>
+<button onclick="quiz('bon')">Le patriarche</button>
+
+<p id="result"></p>
 </section>
 
 <!-- CONTACT -->
+<section id="contact">
+<h2>📩 Contact</h2>
+<p>Pour plus de renseignements : konstantinnellou@gmail.com</p>
+</section>
 
+<footer>
+<p>© Orthodoxie</p>
+</footer>
+
+</body>
+</html>
