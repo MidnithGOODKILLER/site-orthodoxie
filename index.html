@@ -3,27 +3,27 @@
 montgeron.jpg                                                        
 patriarche.jpg
 stihar.jpg
-nouveau.mp3 tton>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
+
 <title>Orthodoxie</title>
 
 <style>
 
-/* FOND CINÉMA */
+/* FOND */
 body{
 margin:0;
 font-family:Arial;
-background:linear-gradient(black,darkred);
+background:url("montgeron.jpg") center/cover fixed;
 color:white;
 }
 
 /* HEADER */
 header{
-background:linear-gradient(90deg,black,red,gold);
+background:linear-gradient(90deg, black, red, gold);
 padding:15px;
 display:flex;
 align-items:center;
@@ -40,12 +40,13 @@ cursor:pointer;
 /* MENU */
 #menu{
 position:fixed;
-right:-280px;
 top:0;
+right:-280px;
 width:280px;
 height:100%;
 background:black;
 transition:0.4s;
+z-index:999;
 }
 
 #menu a{
@@ -53,240 +54,55 @@ display:block;
 padding:15px;
 color:white;
 text-decoration:none;
+cursor:pointer;
 }
 
-/* SECTIONS */
+#menu a:hover{
+background:gold;
+color:black;
+}
+
+/* SLIDER CINÉMA */
+.slider{
+position:relative;
+height:60vh;
+overflow:hidden;
+}
+
+.slide{
+position:absolute;
+width:100%;
+height:100%;
+opacity:0;
+transition:1.5s;
+}
+
+.slide img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.active{
+opacity:1;
+transform:scale(1.1);
+}
+
+/* SECTION */
 section{
 background:rgba(0,0,0,0.7);
 margin:20px;
 padding:20px;
 border-radius:10px;
-transition:0.3s;
-}
-
-section:hover{
-box-shadow:0 0 20px gold;
 }
 
 /* IMAGE */
 img{
 width:100%;
 border-radius:10px;
-transition:0.5s;
-}
-
-img:hover{
-transform:scale(1.05);
 }
 
 /* CALENDRIER */
 #calendar{
 display:grid;
 grid-template-columns:repeat(7,1fr);
-gap:5px;
-}
-
-.day{
-background:purple;
-padding:15px;
-text-align:center;
-cursor:pointer;
-}
-
-.day:hover{
-background:white;
-color:black;
-}
-
-.today{
-background:red;
-}
-
-/* QUIZ */
-button{
-padding:10px;
-margin:5px;
-background:gold;
-border:none;
-cursor:pointer;
-}
-
-</style>
-
-<script>
-
-/* MENU */
-function toggleMenu(){
-let m=document.getElementById("menu");
-m.style.right=(m.style.right=="0px")?"-280px":"0px";
-}
-
-/* SCROLL MENU */
-function goTo(id){
-document.getElementById(id).scrollIntoView();
-toggleMenu();
-}
-
-/* CALENDRIER */
-function createCal(){
-let cal=document.getElementById("calendar");
-let info=document.getElementById("info");
-
-let d=new Date();
-let days=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
-
-for(let i=1;i<=days;i++){
-
-let el=document.createElement("div");
-el.className="day";
-el.innerHTML=i;
-
-if(i==d.getDate()){el.classList.add("today");}
-
-el.onclick=function(){
-
-let j=new Date(d.getFullYear(),d.getMonth(),i).getDay();
-
-let ev=[
-"Heureux les pauvres en esprit...",
-"Jésus enseigne le pardon...",
-"Aimez vos ennemis...",
-"Au commencement était la Parole...",
-"Les apôtres annoncent Dieu...",
-"Lecture de l’épître...",
-"Lecture spirituelle"
-];
-
-let jeune=(j==3||j==5)
-?"🔴 Jeûne (mercredi/vendredi)"
-:"⚪ Pas de jeûne";
-
-info.innerHTML="📖 "+ev[j]+"<br>"+jeune;
-
-};
-
-cal.appendChild(el);
-}
-}
-
-/* QUIZ 10 QUESTIONS */
-let questions=[
-["Chef église ?","Pape","Patriarche",2],
-["Langue ?","Slavon","Anglais",1],
-["STIHAR ?","Vêtement","Livre",1],
-["Jour jeûne ?","Mercredi","Dimanche",1],
-["Foi ?","Chrétienne","Sport",1],
-["Icône ?","Image","Jeu",1],
-["Chant ?","Important","Inutile",1],
-["Eglise ?","Lieu","Jeu",1],
-["Patriarche ?","Kirill","Paul",1],
-["Nombre jours ?","7","5",1]
-];
-
-let qIndex=0;
-let score=0;
-
-function showQ(){
-
-if(qIndex>=questions.length){
-document.getElementById("quizBox").innerHTML=
-"🏆 Score final : "+score+"/10";
-return;
-}
-
-let q=questions[qIndex];
-
-document.getElementById("q").innerHTML=q[0];
-document.getElementById("b1").innerHTML=q[1];
-document.getElementById("b2").innerHTML=q[2];
-
-}
-
-function answer(choice){
-
-let correct=questions[qIndex][3];
-
-if(choice==correct){score++;}
-
-qIndex++;
-showQ();
-
-}
-
-window.onload=function(){
-createCal();
-showQ();
-}
-
-</script>
-
-</head>
-
-<body>
-
-<!-- MUSIQUE -->
-<audio autoplay loop hidden>
-  <source src="nouveau.mp3" type="audio/mpeg">
-</audio>
-``
-<header>
-<span class="menu-btn" onclick="toggleMenu()">☰</span>
-<h1 style="margin-left:20px;">Orthodoxie</h1>
-</header>
-
-<!-- MENU -->
-<div id="menu">
-# onclick="goTo('histoire')">Histoire</a>
-# onclick="goTo('patriarche')">Patriarche</a>
-# onclick="goTo('stihar')">STIHAR</a>
-# onclick="goTo('cal')">Calendrier</a>
-# onclick="goTo('quiz')">Quiz</a>
-# onclick="goTo('contact')">Contact</a>
-</div>
-
-<!-- HISTOIRE -->
-<section id="histoire">
-<h2>📜 Histoire</h2>
-<p>L’orthodoxie est une tradition chrétienne ancienne issue des apôtres.</p>
-</section>
-
-<!-- PATRIARCHE -->
-<section id="patriarche">
-<h2>👑 Patriarche Kirill</h2>
-<img src="patriarche.jpg">
-</section>
-
-<!-- STIHAR -->
-<section id="stihar">
-<h2>👕 STIHAR</h2>
-<img src="stihar.jpg">
-</section>
-
-<!-- CALENDRIER -->
-<section id="cal">
-<h2>📅 Calendrier</h2>
-<div id="calendar"></div>
-<p id="info"></p>
-</section>
-
-<!-- QUIZ -->
-<section id="quiz">
-<h2>🎮 Quiz 10 questions</h2>
-
-<p id="q"></p>
-
-<button onclick="answer(1)" id="b1"></button>
-<button onclick="answer(2)" id="b2"></button>
-
-<div id="quizBox"></div>
-
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-<h2>📩 Contact</h2>
-<p>konstantinnellou@gmail.com</p>
-</section>
-
-</body>
-</html>
