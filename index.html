@@ -17,7 +17,7 @@ nouveau.mp3
 body{
 margin:0;
 font-family:Arial;
-background:linear-gradient(darkred, black);
+background:linear-gradient(black, darkred);
 color:white;
 }
 
@@ -46,7 +46,6 @@ width:280px;
 height:100%;
 background:black;
 transition:0.4s;
-z-index:999;
 }
 
 #menu a{
@@ -69,10 +68,18 @@ padding:20px;
 border-radius:10px;
 }
 
-/* IMAGE */
+/* IMAGES */
 img{
 width:100%;
 border-radius:10px;
+}
+
+/* STIHAR GRAND */
+.big{
+width:100%;
+max-height:500px;
+object-fit:cover;
+border:3px solid gold;
 }
 
 /* CALENDRIER */
@@ -85,8 +92,8 @@ gap:5px;
 .day{
 background:purple;
 padding:15px;
-cursor:pointer;
 text-align:center;
+cursor:pointer;
 }
 
 .day:hover{
@@ -100,11 +107,11 @@ background:red;
 
 /* QUIZ */
 button{
-margin:5px;
 padding:10px;
-cursor:pointer;
+margin:5px;
 background:gold;
 border:none;
+cursor:pointer;
 }
 
 </style>
@@ -117,7 +124,7 @@ let m=document.getElementById("menu");
 m.style.right = (m.style.right=="0px") ? "-280px" : "0px";
 }
 
-/* CALENDRIER */
+/* CALENDRIER COMPLET */
 function createCal(){
 
 let cal=document.getElementById("calendar");
@@ -140,22 +147,24 @@ el.onclick=function(){
 
 let j=new Date(d.getFullYear(), d.getMonth(), i).getDay();
 
-/* TEXTE EVANGILE */
-let text=[
+/* ÉVANGILES (texte visible comme tu veux) */
+let evangiles=[
 "📖 Heureux les pauvres en esprit, car le royaume des cieux est à eux",
-"📖 Jésus pardonne et enseigne l’amour",
-"📖 Aimez vos ennemis",
+"📖 Jésus enseigne le pardon et l’amour",
+"📖 Aimez vos ennemis et priez",
 "📖 Au commencement était la Parole",
-"📖 Les apôtres annoncent Dieu",
-"📖 Lecture de l’Église",
+"📖 Les apôtres annoncent la foi",
+"📖 Lettre aux croyants",
 "📖 Lecture spirituelle"
 ];
 
+/* JEÛNE réaliste */
 let jeune=(j==3 || j==5)
-?"🔴 Jour de jeûne (pas de viande)"
-:"⚪ Pas de jeûne";
+? "🔴 Jour de jeûne (mercredi / vendredi / Carême)"
+: "⚪ Pas de jeûne";
 
-info.innerHTML=text[j]+"<br>"+jeune;
+/* affichage */
+info.innerHTML=evangiles[j]+"<br>"+jeune;
 
 };
 
@@ -165,16 +174,16 @@ cal.appendChild(el);
 
 }
 
-/* QUIZ */
+/* QUIZ 10 QUESTIONS */
 let score=0;
 
-function q(rep){
+function quiz(answer, correct){
 
-if(rep=="bon"){
+if(answer===correct){
 score++;
-document.getElementById("res").innerHTML="✅ Bonne réponse | Score : "+score;
+document.getElementById("result").innerHTML="✅ Bonne réponse | Score : "+score;
 }else{
-document.getElementById("res").innerHTML="❌ Faux | Score : "+score;
+document.getElementById("result").innerHTML="❌ Faux | Score : "+score;
 }
 
 }
@@ -199,6 +208,7 @@ nouveau.mp3
 
 <!-- MENU -->
 <div id="menu">
+Accueil</a>
 #histoireHistoire</a>
 #patriarchePatriarche</a>
 #stiharSTIHAR</a>
@@ -211,10 +221,11 @@ nouveau.mp3
 <section id="histoire">
 <h2>📜 Histoire</h2>
 <p>
-L’orthodoxie vient des apôtres et de l’Empire byzantin.
-On utilise le slavon (ancienne langue russe).
-Les traditions sont très anciennes.
-Les cérémonies sont chantées.
+L’orthodoxie est une tradition chrétienne ancienne.
+Elle vient des apôtres et de l’Empire byzantin.
+Elle utilise le slavon, ancienne langue religieuse russe.
+Les cérémonies sont longues et chantées.
+Les traditions sont restées très anciennes.
 </p>
 </section>
 
@@ -227,10 +238,70 @@ patriarche.jpg
 
 <!-- STIHAR -->
 <section id="stihar">
-<h2>👕 STIHAR</h2>
-stihar.jpg
-<p>Vêtement des prêtres et servants d’autel.</p>
+<h2>👕 STIHAR (grand)</h2>
+<img src="stihar.jpg" class="big">
+<p>Vêtement liturgique porté par les prêtres.</p>
 </section>
 
 <!-- CALENDRIER -->
 <section id="cal">
+<h2>📅 Calendrier Orthodoxe</h2>
+<div id="calendar"></div>
+<p id="info"></p>
+</section>
+
+<!-- QUIZ 10 QUESTIONS -->
+<section id="quiz">
+<h2>🎮 Quiz 10 questions</h2>
+
+<p>1. Chef de l’Église ?</p>
+<button onclick="quiz('pape','patriarche')">Pape</button>
+<button onclick="quiz('patriarche','patriarche')">Patriarche</button>
+
+<p>2. STIHAR ?</p>
+<button onclick="quiz('vetement','vetement')">Vêtement</button>
+<button onclick="quiz('livre','vetement')">Livre</button>
+
+<p>3. Langue ?</p>
+<button onclick="quiz('slavon','slavon')">Slavon</button>
+<button onclick="quiz('anglais','slavon')">Anglais</button>
+
+<p>4. Jour de jeûne ?</p>
+<button onclick="quiz('mercredi','mercredi')">Mercredi</button>
+<button onclick="quiz('dimanche','mercredi')">Dimanche</button>
+
+<p>5. Lieu principal ?</p>
+<button onclick="quiz('eglise','eglise')">Église</button>
+<button onclick="quiz('mosquee','eglise')">Mosquée</button>
+
+<p>6. Icône ?</p>
+<button onclick="quiz('image','image')">Image religieuse</button>
+<button onclick="quiz('jeu','image')">Jeu</button>
+
+<p>7. Chant ?</p>
+<button onclick="quiz('important','important')">Important</button>
+<button onclick="quiz('inutile','important')">Inutile</button>
+
+<p>8. Nombre de jours semaine ?</p>
+<button onclick="quiz('7','7')">7</button>
+<button onclick="quiz('5','7')">5</button>
+
+<p>9. Patriarche ?</p>
+<button onclick="quiz('kirill','kirill')">Kirill</button>
+<button onclick="quiz('paul','kirill')">Paul</button>
+
+<p>10. Foi ?</p>
+<button onclick="quiz('chretienne','chretienne')">Chrétienne</button>
+<button onclick="quiz('sport','chretienne')">Sport</button>
+
+<p id="result"></p>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<h2>📩 Contact</h2>
+<p>Pour plus de renseignements : konstantinnellou@gmail.com</p>
+</section>
+
+</body>
+</html>
