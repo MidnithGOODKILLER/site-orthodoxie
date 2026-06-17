@@ -109,7 +109,78 @@ border:none;
 cursor:pointer;
 margin-top:10px;
 }
+/* CALENDRIER STYLE CINÉMA */
+#calSection {
+background: rgba(0,0,0,0.8);
+padding:20px;
+margin:20px;
+border-radius:15px;
+box-shadow: 0 0 20px gold;
+animation: fadeIn 1s ease;
+}
 
+#calendar {
+display:grid;
+grid-template-columns: repeat(7, 1fr);
+gap:8px;
+margin-top:20px;
+}
+
+.day {
+background: linear-gradient(45deg, grey, purple);
+color:purple;
+padding:12px;
+text-align:center;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+font-weight:bold;
+}
+
+/* effet cinéma hover */
+.day:hover {
+transform:scale(1.2);
+box-shadow:0 0 20px gold;
+background:white;
+}
+
+/* jour actuel */
+.today {
+background:red;
+color:white;
+animation: pulse 1s infinite alternate;
+}
+
+/* animation lumière */
+@keyframes pulse {
+from { box-shadow:0 0 5px red; }
+to { box-shadow:0 0 25px red; }
+}
+
+/* animation apparition */
+@keyframes fadeIn {
+from {opacity:0; transform:translateY(30px);}
+to {opacity:1; transform:translateY(0);}
+}
+``
+
+footer {
+background: linear-gradient(90deg, black, purple, red, gold);
+padding:20px;
+text-align:center;
+margin-top:40px;
+border-top:3px solid gold;
+animation: glowFooter 2s infinite alternate;
+}
+
+@keyframes glowFooter {
+from { box-shadow:0 0 10px gold; }
+to { box-shadow:0 0 30px gold; }
+}
+
+footer p {
+margin:10px;
+}
 </style>
 
 <script>
@@ -161,7 +232,80 @@ btn.innerHTML="Voir plus";
 </script>
 
 </head>
+ 
 
+<section id="calSection">
+<h2>📅 Calendrier Orthodoxe</h2>
+
+<div id="calendar"></div>
+
+<p id="infoJour"></p>
+
+</section>
+<script>
+
+let today = new Date();
+let calendar = document.getElementById("calendar");
+
+let year = today.getFullYear();
+let month = today.getMonth();
+
+let days = new Date(year, month+1, 0).getDate();
+
+for(let i=1;i<=days;i++){
+
+let div = document.createElement("div");
+div.className="day";
+div.innerHTML = i;
+
+/* jour actuel */
+if(i === today.getDate()){
+div.classList.add("today");
+}
+
+/* clic */
+div.onclick = function(){
+
+let jour = new Date(year, month, i).getDay();
+
+let evangiles=[
+"Matthieu 5",
+"Marc 2",
+"Luc 6",
+"Jean 1",
+"Actes",
+"Épître",
+"Lecture liturgique"
+];
+
+let jeune = (jour==3 || jour==5)
+? "✅ Jeûne (pas de viande)"
+: "❌ Pas de jeûne";
+
+document.getElementById("infoJour").innerHTML =
+"📅 Jour : "+i+
+" | 📖 Évangile : "+evangiles[jour]+
+" | "+jeune;
+
+};
+
+calendar.appendChild(div);
+
+}
+
+</script>
+<footer>
+
+<h3>🌐 Orthodoxie</h3>
+
+<p>
+Site sur la religion orthodoxe<br>
+Langue : slavon (ancienne langue russe)<br>
+Contact : konstantinnellou@gmail.com
+</p>
+
+</footer>
+``
 <body>
 
 <header>
@@ -186,15 +330,15 @@ stihar">👕 STIHAR</a>
 <div class="slider">
 
 <div class="slide active">
-montgeron.jpg
+<img src="montgeron.jpg">
 </div>
 
 <div class="slide">
-patriarche.jpg
+<img src="patriarche.jpg">
 </div>
 
 <div class="slide">
-stihar.jpg
+<img src="stihar.jpg" style="width:100%; border-radius:10px;">
 </div>
 
 </div>
@@ -232,7 +376,7 @@ Les traditions sont restées très anciennes.
 
 <h2>👑 Patriarche Kirill</h2>
 
-patriarche.jpg
+<img src="patriarche.jpg">
 
 <p>
 Kirill est le chef de l'Église orthodoxe russe.
@@ -244,9 +388,9 @@ Il dirige les grandes cérémonies et guide les fidèles.
 <!-- STIHAR -->
 <section id="stihar">
 
-<h2>👕 STIHAR</h2>
+<img src="stihar.jpg" style="width:100%; border-radius:10px;">
 
-stihar.jpg
+<img src="stihar.jpg">
 
 <p>
 Le STIHAR est un vêtement porté par les prêtres et servants d’autel.
@@ -256,104 +400,4 @@ Il peut être coloré et symbolise la pureté.
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
 
-<h2>📩 Contact</h2>
-
-<p>konstantinnellou@gmail.com</p>
-
-</section>
-
-</body>
-</html>
-<section>
-<h2>📅 Calendrier interactif</h2>
-
-<div id="calendar"></div>
-
-<p id="infoJour"></p>
-
-</section>
-
-#calendar {
-display:grid;
-grid-template-columns: repeat(7, 1fr);
-gap:5px;
-margin:20px;
-}
-
-.day {
-background:gold;
-color:black;
-padding:10px;
-text-align:center;
-border-radius:5px;
-cursor:pointer;
-transition:0.3s;
-}
-
-.day:hover {
-background:blue;
-transform:scale(1.2);
-}
-
-.today {
-background:turkeese;
-color:purple;
-}
-
-<script>
-
-let today = new Date();
-let calendar = document.getElementById("calendar");
-
-let year = today.getFullYear();
-let month = today.getMonth();
-
-/* nombre de jours */
-let days = new Date(year, month+1, 0).getDate();
-
-for(let i=1;i<=days;i++){
-
-let div = document.createElement("div");
-div.className="day";
-div.innerHTML = i;
-
-/* jour actuel */
-if(i === today.getDate()){
-div.classList.add("today");
-}
-
-/* clic */
-div.onclick = function(){
-
-let jour = new Date(year, month, i).getDay();
-
-/* évangile simple */
-let evangiles=[
-"Matthieu",
-"Marc",
-"Luc",
-"Jean",
-"Actes",
-"Épître",
-"Lecture"
-];
-
-/* jeûne */
-let jeun = (jour==3 || jour==5)
-? "✅ Jeûne (pas de viande)"
-: "❌ Pas de jeûne";
-
-document.getElementById("infoJour").innerHTML =
-"Jour : " + i +
-" | Évangile : " + evangiles[jour] +
-" | " + jeun;
-
-};
-
-calendar.appendChild(div);
-
-}
-
-</script>
