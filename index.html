@@ -9,12 +9,11 @@ nouveau.mp3
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-
 <title>Orthodoxie</title>
 
 <style>
 
-/* FOND */
+/* FOND CINÉMA */
 body{
 margin:0;
 font-family:Arial;
@@ -50,7 +49,6 @@ transition:0.4s;
 display:block;
 padding:15px;
 cursor:pointer;
-color:white;
 }
 
 /* SECTIONS */
@@ -59,13 +57,13 @@ background:rgba(0,0,0,0.9);
 margin:20px;
 padding:20px;
 border-radius:10px;
+transition:0.3s;
 }
 
-/* IMAGES */
-img{width:100%;border-radius:10px;}
-
-/* CINEMA */
-section:hover{box-shadow:0 0 20px gold;transition:0.3s;}
+/* CINÉMA */
+section:hover{box-shadow:0 0 25px gold;}
+img{width:100%;border-radius:10px;transition:0.5s;}
+img:hover{transform:scale(1.05);}
 
 /* CALENDRIER */
 #calendar{
@@ -73,32 +71,21 @@ display:grid;
 grid-template-columns:repeat(7,1fr);
 gap:5px;
 }
-
 .day{
 background:purple;
 padding:10px;
-text-align:center;
 cursor:pointer;
+text-align:center;
 }
-
 .day:hover{
-background:white;
-color:black;
-animation:flash 0.4s infinite;
+background:white;color:black;
 }
-
 .today{background:red;}
-
-@keyframes flash{
-0%{opacity:1;}
-50%{opacity:0.3;}
-100%{opacity:1;}
-}
 
 /* QUIZ */
 button{
-padding:8px;
 margin:5px;
+padding:10px;
 background:gold;
 border:none;
 cursor:pointer;
@@ -113,104 +100,97 @@ function toggleMenu(){
 let m=document.getElementById("menu");
 m.style.left=(m.style.left=="0px")?"-280px":"0px";
 }
-
-/* NAV */
 function goTo(id){
 document.getElementById(id).scrollIntoView();
 toggleMenu();
 }
 
-/* TEXTE HISTOIRE */
+/* HISTOIRE */
 function toggleText(){
 let t=document.getElementById("suite");
 let b=document.getElementById("btn");
-
 if(t.style.display=="none"){
-t.style.display="block";
-b.innerHTML="Afficher moins";
+t.style.display="block";b.innerHTML="Afficher moins";
 }else{
-t.style.display="none";
-b.innerHTML="Afficher plus";
+t.style.display="none";b.innerHTML="Afficher plus";
 }
 }
 
 /* CALENDRIER */
 function cal(){
-
 let c=document.getElementById("calendar");
 let info=document.getElementById("info");
+let d=new Date();
 
 for(let i=1;i<=30;i++){
+let el=document.createElement("div");
+el.className="day";
+el.innerHTML=i;
 
-let d=document.createElement("div");
-d.className="day";
-d.innerHTML=i;
+if(i==d.getDate())el.classList.add("today");
 
-d.onclick=function(){
+el.onclick=function(){
 info.innerHTML=
-"📖 Heureux les pauvres en esprit, car le royaume des cieux est à eux.<br>"+
-"🔴 Jeûne : mercredi / vendredi et périodes comme Carême.";
+"📖 Heureux les pauvres en esprit car le royaume des cieux est à eux.<br>"+
+"🔴 Jeûne : mercredi / vendredi et Carême.";
 };
 
-c.appendChild(d);
-
+c.appendChild(el);
 }
 }
 
-/* QUIZ 20 QUESTIONS */
+/* QUIZ */
 let score=0;
 let q=0;
 
 let questions=[
-["Chef église ?","Pape","Patriarche",2],
+["Chef de l’église ?","Pape","Patriarche",2],
 ["Langue ?","Slavon","Anglais",1],
 ["STIHAR ?","Vêtement","Livre",1],
 ["Jeûne ?","Mercredi","Dimanche",1],
 ["Foi ?","Chrétienne","Sport",1],
 ["Icône ?","Image","Jeu",1],
 ["Chant ?","Important","Inutile",1],
-["Lieu ?","Église","Mosquée",1],
+["Lieu ?","Église","Magasin",1],
 ["Chef russe ?","Kirill","Paul",1],
 ["Semaine ?","7","5",1],
-["Livre ?","Bible","Film",1],
-["Dieu ?","Unique","Plusieurs",1],
 ["Pâques ?","Fête","Sport",1],
 ["Carême ?","Jeûne","Vacances",1],
-["Cierge ?","Bougie","Lampe",1],
-["Prêtre ?","Guide","Joueur",1],
-["Foi ?","Spirituelle","Jeu",1],
-["Église ?","Lieu sacré","Magasin",1],
 ["Croix ?","Symbole","Outil",1],
-["Orthodoxie ?","Religion","Sport",1]
+["Prêtre ?","Guide","Joueur",1],
+["Cierge ?","Bougie","Lampe",1],
+["Bible ?","Livre","Film",1],
+["Foi ?","Spirituelle","Jeu",1],
+["Orthodoxie ?","Religion","Sport",1],
+["Dieu ?","Unique","Plusieurs",1],
+["Église ?","Lieu sacré","Terrain",1]
 ];
 
-function afficherQuestion(){
-
+function showQ(){
 if(q>=questions.length){
-document.getElementById("quiz").innerHTML="🏆 Score : "+score+"/20";
+document.getElementById("quizBox").innerHTML=
+"🏆 Score final : "+score+"/20<br><br>"+
+"<button onclick='restartQuiz()'>🔄 Recommencer</button>";
 return;
 }
-
 let Q=questions[q];
-
 document.getElementById("question").innerHTML=Q[0];
 document.getElementById("a1").innerHTML=Q[1];
 document.getElementById("a2").innerHTML=Q[2];
-
 }
 
-function repondre(rep){
-
-if(rep==questions[q][3]) score++;
-
+function answer(x){
+if(x==questions[q][3])score++;
 q++;
-afficherQuestion();
+showQ();
+}
 
+function restartQuiz(){
+q=0;score=0;showQ();
 }
 
 window.onload=function(){
-cal();
-afficherQuestion();
+cal();showQ();
 }
 
 </script>
@@ -219,7 +199,7 @@ afficherQuestion();
 
 <body>
 
-<!-- MUSIQUE (FIX) -->
+<!-- MUSIQUE ✅ -->
 <audio controls autoplay loop>
 <source src="nouveau.mp3" type="audio/mpeg">
 </audio>
@@ -233,8 +213,8 @@ afficherQuestion();
 <a onclick="goTo('histoire')">Histoire</a>
 <a onclick="goTo('patriarche')">Patriarche</a>
 <a onclick="goTo('stihar')">STIHAR</a>
-<a onclick="goTo('calendrier')">Calendrier</a>
-<a onclick="goTo('quizBox')">Quiz</a>
+<a onclick="goTo('cal')">Calendrier</a>
+<a onclick="goTo('quiz')">Quiz</a>
 <a onclick="goTo('contact')">Contact</a>
 </div>
 
@@ -242,12 +222,12 @@ afficherQuestion();
 <section id="histoire">
 
 <p>
-L’orthodoxie est une tradition chrétienne ancienne issue directement des apôtres de Jésus-Christ...
+L’orthodoxie est une tradition chrétienne ancienne issue directement des apôtres...
 </p>
 
 <div id="suite" style="display:none;">
 <p>
-L’Église orthodoxe s’est séparée de l’Église catholique en 1054...
+L’Église orthodoxe s’est séparée en 1054, elle conserve ses traditions...
 </p>
 </div>
 
@@ -258,40 +238,38 @@ L’Église orthodoxe s’est séparée de l’Église catholique en 1054...
 <!-- PATRIARCHE -->
 <section id="patriarche">
 patriarche.jpg
-<p>Le patriarche Kirill est le chef de l’Église orthodoxe russe.</p>
+<p>Le patriarche Kirill dirige l’Église orthodoxe.</p>
 </section>
 
 <!-- STIHAR -->
 <section id="stihar">
 stihar.jpg
-<p>
-Le STIHAR est un habit porté uniquement par les hommes,
-les prêtres et les servants d’autel.
-</p>
+<p>Le STIHAR est un vêtement des prêtres et servants d’autel.</p>
 </section>
 
 <!-- CALENDRIER -->
-<section id="calendrier">
+<section id="cal">
 <div id="calendar"></div>
 <p id="info"></p>
 </section>
 
 <!-- QUIZ -->
-<section id="quizBox">
+<section id="quiz">
 <h2>Quiz</h2>
+
 <p id="question"></p>
 
-<button onclick="repondre(1)" id="a1"></button>
-<button onclick="repondre(2)" id="a2"></button>
+<button onclick="answer(1)" id="a1"></button>
+<button onclick="answer(2)" id="a2"></button>
 
-<div id="quiz"></div>
+<div id="quizBox"></div>
+
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-<p>Contact : konstantinnellou@gmail.com</p>
+<p>Email : konstantinnellou@gmail.com</p>
 </section>
 
 </body>
 </html>
-``
