@@ -3,12 +3,12 @@
 montgeron.jpg                                                        
 patriarche.jpg
 stihar.jpg
+nouveau.mp3
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-
 <title>Orthodoxie</title>
 
 <style>
@@ -29,6 +29,7 @@ display:flex;
 align-items:center;
 position:sticky;
 top:0;
+z-index:1000;
 }
 
 /* BURGER */
@@ -41,12 +42,12 @@ cursor:pointer;
 #menu{
 position:fixed;
 top:0;
-right:-280px;
+left:-280px;
 width:280px;
 height:100%;
 background:black;
 transition:0.4s;
-z-index:999;
+z-index:9999;
 }
 
 #menu a{
@@ -60,32 +61,6 @@ cursor:pointer;
 #menu a:hover{
 background:gold;
 color:black;
-}
-
-/* SLIDER CINÉMA */
-.slider{
-position:relative;
-height:60vh;
-overflow:hidden;
-}
-
-.slide{
-position:absolute;
-width:100%;
-height:100%;
-opacity:0;
-transition:1.5s;
-}
-
-.slide img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.active{
-opacity:1;
-transform:scale(1.1);
 }
 
 /* SECTION */
@@ -106,3 +81,183 @@ border-radius:10px;
 #calendar{
 display:grid;
 grid-template-columns:repeat(7,1fr);
+gap:5px;
+}
+
+.day{
+background:purple;
+padding:12px;
+cursor:pointer;
+text-align:center;
+}
+
+.day:hover{
+background:white;
+color:black;
+}
+
+.today{
+background:red;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+section{margin:10px;}
+}
+
+</style>
+
+<script>
+
+/* MENU QUI MARCHE */
+function toggleMenu(){
+let menu = document.getElementById("menu");
+
+if(menu.style.left == "0px"){
+menu.style.left = "-280px";
+}else{
+menu.style.left = "0px";
+}
+}
+
+/* NAVIGATION */
+function goTo(id){
+document.getElementById(id).scrollIntoView();
+toggleMenu();
+}
+
+/* CALENDRIER */
+function createCalendar(){
+
+let cal=document.getElementById("calendar");
+let info=document.getElementById("info");
+
+let d=new Date();
+
+for(let i=1;i<=30;i++){
+
+let el=document.createElement("div");
+el.className="day";
+el.innerHTML=i;
+
+if(i==d.getDate()){
+el.classList.add("today");
+}
+
+el.onclick=function(){
+info.innerHTML=
+"📖 Évangile : Heureux les pauvres en esprit, car le royaume des cieux est à eux. "+
+"Jésus enseigne l’humilité, la foi et l’amour.<br>"+
+"🔴 Jeûne : mercredi et vendredi (et périodes comme le Carême avant Pâques)";
+};
+
+cal.appendChild(el);
+
+}
+
+}
+
+window.onload=createCalendar;
+
+</script>
+
+</head>
+
+<body>
+
+<!-- MUSIQUE ✅ -->
+<audio controls autoplay loop>
+ton navigateur ne supporte pas l'audio
+</audio>
+
+<header>
+<span class="menu-btn" onclick="toggleMenu()">☰</span>
+<h1 style="margin-left:20px;">Orthodoxie</h1>
+</header>
+
+<!-- MENU -->
+<div id="menu">
+<a onclick="goTo('home')">Accueil</a>
+<a onclick="goTo('histoire')">Histoire</a>
+<a onclick="goTo('patriarche')">Patriarche</a>
+<a onclick="goTo('stihar')">STIHAR</a>
+<a onclick="goTo('calendarSection')">Calendrier liturgique</a>
+<a onclick="goTo('contact')">Contact</a>
+</div>
+
+<!-- IMAGE PRINCIPALE -->
+<section id="home">
+<h2>⛪ Église de Montgeron</h2>
+montgeron.jpg
+</section>
+
+<!-- HISTOIRE (20+ lignes) -->
+<section id="histoire">
+<h2>📜 Histoire de l’orthodoxie</h2>
+
+<p>
+L’orthodoxie est une tradition chrétienne ancienne issue directement des apôtres de Jésus-Christ.
+Elle s’est développée dans l’Empire byzantin et s’est diffusée ensuite en Russie et en Europe de l’Est.
+Elle conserve encore aujourd’hui des rites très anciens.
+Les cérémonies sont longues et accompagnées de chants sacrés.
+La langue utilisée dans les célébrations est souvent le slavon, une ancienne langue religieuse russe.
+Les églises orthodoxes sont décorées avec des icônes dorées.
+Les fidèles allument des bougies pour prier.
+</p>
+
+<p>
+L’Église orthodoxe s’est séparée de l’Église catholique en 1054, lors du Grand Schisme.
+Depuis, elle suit ses propres traditions.
+Les prêtres jouent un rôle très important.
+Le calendrier liturgique est différent et inclut de nombreuses périodes de jeûne.
+Il existe plusieurs grandes fêtes comme Pâques, Noël et la Pentecôte.
+Le jeûne est souvent observé le mercredi et le vendredi.
+Les fidèles suivent des règles alimentaires strictes pendant certaines périodes comme le Carême.
+Cette tradition est restée très fidèle à ses origines.
+Aujourd’hui, elle est encore très pratiquée en Russie, en Grèce et dans d’autres pays.
+</p>
+
+</section>
+
+<!-- PATRIARCHE -->
+<section id="patriarche">
+<h2>👑 Patriarche Kirill</h2>
+patriarche.jpg
+<p>
+Kirill est le chef de l’Église orthodoxe russe.
+Il dirige les cérémonies importantes et guide les fidèles.
+</p>
+</section>
+
+<!-- STIHAR -->
+<section id="stihar">
+<h2>👕 STIHAR</h2>
+stihar.jpg
+
+<p>
+Le STIHAR est un habit liturgique porté par les prêtres et les servants d’autel.
+Il peut être de différentes couleurs et symbolise la pureté.
+Il est porté uniquement par les hommes dans le cadre des cérémonies religieuses.
+</p>
+
+</section>
+
+<!-- CALENDRIER -->
+<section id="calendarSection">
+<h2>📅 Calendrier liturgique</h2>
+
+<div id="calendar"></div>
+
+<p id="info"></p>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<h2>📩 Contact</h2>
+<p>Pour plus de renseignements : konstantinnellou@gmail.com</p>
+</section>
+
+</body>
+</html>
+``
