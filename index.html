@@ -1,19 +1,19 @@
 📁 Site Orthodoxie
  └─ index.html
-montgeron.png                                                        
-patriarche.png
-stihar.png
+montgeron.jpg                                                        
+patriarche.jpg
+stihar.jpg
 nouveau.mp3 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width">
 <title>Orthodoxie</title>
 
 <style>
 
+/* FOND */
 body{
 margin:0;
 font-family:Arial;
@@ -21,13 +21,15 @@ background:url("montgeron.jpg") center/cover fixed;
 color:white;
 }
 
+/* HEADER */
 header{
-background:linear-gradient(90deg,black,red,gold);
+background:linear-gradient(90deg, black, red, gold);
 padding:15px;
 display:flex;
 align-items:center;
 }
 
+/* HAMBURGER */
 .menu-btn{
 font-size:30px;
 cursor:pointer;
@@ -36,12 +38,12 @@ cursor:pointer;
 /* MENU */
 #menu{
 position:fixed;
-right:-260px;
+right:-300px;
 top:0;
-width:260px;
+width:300px;
 height:100%;
 background:black;
-transition:0.3s;
+transition:0.4s;
 z-index:1000;
 }
 
@@ -57,6 +59,32 @@ background:gold;
 color:black;
 }
 
+/* SLIDER CINÉMA */
+.slider{
+position:relative;
+height:60vh;
+overflow:hidden;
+}
+
+.slide{
+position:absolute;
+width:100%;
+height:100%;
+opacity:0;
+transition:2s;
+}
+
+.slide img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.active{
+opacity:1;
+transform:scale(1.05);
+}
+
 /* SECTIONS */
 section{
 background:rgba(0,0,0,0.7);
@@ -65,33 +93,13 @@ padding:20px;
 border-radius:10px;
 }
 
-/* IMAGES ✅ */
+/* IMAGES */
 img{
 width:100%;
 border-radius:10px;
-margin-top:10px;
 }
 
-/* CALENDRIER */
-#cal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.9);
-}
-
-.modal{
-background:black;
-margin:5% auto;
-padding:20px;
-max-width:500px;
-border-radius:10px;
-text-align:center;
-}
-
+/* BUTTON */
 button{
 background:gold;
 padding:10px;
@@ -99,91 +107,38 @@ border:none;
 cursor:pointer;
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:5px;
-}
-
-.day{
-background:gold;
-color:black;
-padding:10px;
-border-radius:5px;
-}
-
-.today{
-background:red;
-color:white;
-}
-
 </style>
 
 <script>
 
 /* MENU */
-function openMenu(){
-document.getElementById("menu").style.right="0";
-}
-function closeMenu(){
-document.getElementById("menu").style.right="-260px";
+function toggleMenu(){
+let m=document.getElementById("menu");
+m.style.right = (m.style.right=="0px") ? "-300px" : "0px";
 }
 
-/* CALENDRIER */
-function toggleCal(){
-let c=document.getElementById("cal");
-
-if(c.style.display=="block"){
-c.style.display="none";
-return;
+/* SLIDER */
+let i=0;
+function slider(){
+let slides=document.querySelectorAll(".slide");
+slides.forEach(s=>s.classList.remove("active"));
+slides[i].classList.add("active");
+i=(i+1)%slides.length;
 }
+setInterval(slider,3000);
 
-c.style.display="block";
+/* HISTOIRE */
+function toggleText(){
+let t=document.getElementById("textMore");
+let btn=document.getElementById("btn");
 
-let d=new Date();
-
-let jours=["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
-let mois=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
-
-document.getElementById("date").innerHTML=
-jours[d.getDay()]+" "+d.getDate()+" "+mois[d.getMonth()];
-
-/* EVANGILE ✅ */
-let evangiles=[
-"Matthieu 5:1-12 : Sermon sur la montagne",
-"Marc 2:1-12 : Guérison",
-"Luc 6:20 : Béatitudes",
-"Jean 1:1 : Au commencement",
-"Actes des apôtres",
-"Lecture liturgique",
-"Épître"
-];
-
-document.getElementById("evangile").innerHTML=
-evangiles[d.getDay()];
-
-/* JEÛNE */
-document.getElementById("jeune").innerHTML=
-(d.getDay()==3||d.getDay()==5)?
-"✅ Jour de jeûne":
-"❌ Pas de jeûne";
-
-/* GRID */
-let grid=document.getElementById("grid");
-grid.innerHTML="";
-
-let days=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
-
-for(let j=1;j<=days;j++){
-let el=document.createElement("div");
-el.className="day";
-
-if(j==d.getDate()){el.classList.add("today");}
-
-el.innerHTML=j;
-grid.appendChild(el);
+if(t.style.display=="none"){
+t.style.display="block";
+btn.innerHTML="Voir moins";
+}else{
+t.style.display="none";
+btn.innerHTML="Voir plus";
 }
-
 }
 
 </script>
@@ -193,90 +148,101 @@ grid.appendChild(el);
 <body>
 
 <header>
-<span class="menu-btn" onclick="openMenu()">☰</span>
+<span class="menu-btn" onclick="toggleMenu()">☰</span>
 <h1 style="margin-left:20px;">Orthodoxie</h1>
 </header>
 
-<!-- MENU ✅ CORRIGÉ -->
+<!-- MENU -->
 <div id="menu">
-Fermer</a>
-Histoire</a>
-Patriarche</a>
-STIHAR</a>
-Contact</a>
+<a href="#histoire">📜 Histoire</a>
+<a href="#patriarche">👑 Patriarche</a>
+<a href="#stihar">👕 STIHAR</a>
+<a href="#glossaire">📘 Glossaire</a>
+<a href="#contact">📩 Contact</a>
 </div>
 
-<!-- HISTOIRE (LONGUE ✅) -->
+<!-- SLIDER -->
+<div class="slider">
+<div class="slide active"><img src="montgeron.jpg"></div>
+<div class="slide"><img src="patriarche.jpg"></div>
+<div class="slide"><img src="stihar.jpg"></div>
+</div>
+
+<!-- HISTOIRE -->
 <section id="histoire">
-<h2>📜 Histoire</h2>
+<h2>📜 Histoire de l'Orthodoxie</h2>
 
 <p>
-L’orthodoxie est une tradition chrétienne très ancienne.
-Elle remonte aux apôtres et conserve des traditions intactes depuis des siècles.
-Les cérémonies sont longues, chantées et riches en symboles.
-Les fidèles utilisent parfois le slavon, une ancienne langue russe religieuse.
+L’orthodoxie est l’une des plus anciennes traditions chrétiennes.
+Elle remonte directement aux apôtres de Jésus-Christ.
+Elle s’est développée dans l’Empire byzantin.
+Les liturgies sont longues et très riches.
+Les chants sont essentiels.
+La langue utilisée est le slavon.
 </p>
 
+<div id="textMore" style="display:none;">
 <p>
-Les églises orthodoxes sont connues pour leurs dômes dorés et leurs icônes.
-Les croyants prient avec des bougies et participent activement aux liturgies.
-Les chants créent une ambiance spirituelle unique.
+Le slavon est une ancienne langue russe religieuse.
+Les traditions sont restées très anciennes.
+Les églises orthodoxes sont magnifiques.
+On trouve des icônes partout.
+Les fidèles prient avec des bougies.
+Les cérémonies peuvent durer plusieurs heures.
+Les prêtres portent des vêtements spéciaux.
+L’Église orthodoxe s’est séparée des catholiques en 1054.
+Elle existe en Russie, en Grèce et en Europe de l’Est.
+Elle reste très fidèle à ses traditions.
+Les chants donnent une ambiance spirituelle unique.
 </p>
+</div>
 
-<p>
-Cette tradition est présente en Russie, en Grèce et en Europe de l’Est.
-Elle continue aujourd’hui à transmettre sa foi et ses valeurs.
-</p>
+<button onclick="toggleText()" id="btn">Voir plus</button>
 
 </section>
 
-<!-- PATRIARCHE ✅ -->
+<!-- PATRIARCHE -->
 <section id="patriarche">
 <h2>👑 Patriarche Kirill</h2>
 
-img.png
+patriarche.jpg
 
 <p>
-Kirill est le patriarche de Moscou.
-Il dirige l’Église orthodoxe russe et guide les fidèles.
+Le patriarche Kirill est le chef de l'Église orthodoxe russe.
+Il dirige les cérémonies importantes et guide les fidèles.
+Il joue un rôle essentiel dans la transmission de la foi.
 </p>
 
 </section>
 
-<!-- STIHAR ✅ -->
+<!-- STIHAR -->
 <section id="stihar">
 <h2>👕 STIHAR</h2>
 
-img.png
+stihar.jpg
 
 <p>
-Le stihar est un vêtement porté par les prêtres et les servants d’autel.
+Le STIHAR est un vêtement liturgique porté par les prêtres 
+et les servants d’autel.
+Il n’est pas toujours noir, il peut être doré ou coloré.
+Les prêtres portent une croix autour du cou.
 </p>
 
 </section>
 
-<!-- CALENDRIER -->
-<section>
-<h2>📅 Calendrier Orthodoxe</h2>
-<button onclick="toggleCal()">Ouvrir / Fermer</button>
+<!-- GLOSSAIRE -->
+<section id="glossaire">
+<h2>📘 Glossaire</h2>
+
+<ul>
+<li>Orthodoxie : branche ancienne du christianisme</li>
+<li>Slavon : ancienne langue religieuse russe</li>
+<li>Patriarche : chef de l’Église</li>
+<li>STIHAR : vêtement liturgique</li>
+<li>Icône : image religieuse</li>
+</ul>
+
 </section>
-
-<div id="cal">
-<div class="modal">
-
-<h2>Calendrier du jour</h2>
-
-<p id="date"></p>
-
-<p><b>Évangile :</b> <span id="evangile"></span></p>
-<p><b>Jeûne :</b> <span id="jeune"></span></p>
-
-<div id="grid" class="grid"></div>
-
-<button onclick="toggleCal()">Fermer</button>
-
-</div>
-</div>
 
 <!-- CONTACT -->
 <section id="contact">
