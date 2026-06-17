@@ -4,11 +4,13 @@ montgeron.jpg
 patriarche.jpg
 stihar.jpg
 nouveau.mp3 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Orthodoxie</title>
 
 <style>
@@ -16,7 +18,7 @@ nouveau.mp3
 /* FOND */
 body{
 margin:0;
-font-family:Arial;
+font-family: Arial;
 background:url("montgeron.jpg") center/cover fixed;
 color:white;
 }
@@ -29,7 +31,7 @@ display:flex;
 align-items:center;
 }
 
-/* HAMBURGER */
+/* BURGER */
 .menu-btn{
 font-size:30px;
 cursor:pointer;
@@ -38,13 +40,13 @@ cursor:pointer;
 /* MENU */
 #menu{
 position:fixed;
-right:-300px;
 top:0;
-width:300px;
+right:-260px;
+width:260px;
 height:100%;
 background:black;
 transition:0.4s;
-z-index:1000;
+z-index:999;
 }
 
 #menu a{
@@ -71,7 +73,7 @@ position:absolute;
 width:100%;
 height:100%;
 opacity:0;
-transition:2s;
+transition:1.5s;
 }
 
 .slide img{
@@ -82,10 +84,10 @@ object-fit:cover;
 
 .active{
 opacity:1;
-transform:scale(1.05);
+transform:scale(1.1);
 }
 
-/* SECTIONS */
+/* SECTION */
 section{
 background:rgba(0,0,0,0.7);
 margin:20px;
@@ -93,7 +95,7 @@ padding:20px;
 border-radius:10px;
 }
 
-/* IMAGES */
+/* IMAGE */
 img{
 width:100%;
 border-radius:10px;
@@ -105,38 +107,53 @@ background:gold;
 padding:10px;
 border:none;
 cursor:pointer;
+margin-top:10px;
 }
 
 </style>
 
 <script>
 
-/* MENU */
+/* MENU FIX */
 function toggleMenu(){
-let m=document.getElementById("menu");
-m.style.right = (m.style.right=="0px") ? "-300px" : "0px";
+let menu=document.getElementById("menu");
+
+if(menu.style.right=="0px"){
+menu.style.right="-260px";
+}else{
+menu.style.right="0px";
+}
 }
 
 /* SLIDER */
-let i=0;
-function slider(){
-let slides=document.querySelectorAll(".slide");
-slides.forEach(s=>s.classList.remove("active"));
-slides[i].classList.add("active");
-i=(i+1)%slides.length;
-}
-setInterval(slider,3000);
+let index=0;
 
-/* HISTOIRE */
+function showSlides(){
+let slides=document.querySelectorAll(".slide");
+
+slides.forEach(s=>s.classList.remove("active"));
+
+slides[index].classList.add("active");
+
+index++;
+if(index>=slides.length){
+index=0;
+}
+
+}
+
+setInterval(showSlides,3000);
+
+/* TEXTE */
 function toggleText(){
-let t=document.getElementById("textMore");
+let txt=document.getElementById("more");
 let btn=document.getElementById("btn");
 
-if(t.style.display=="none"){
-t.style.display="block";
+if(txt.style.display=="none"){
+txt.style.display="block";
 btn.innerHTML="Voir moins";
 }else{
-t.style.display="none";
+txt.style.display="none";
 btn.innerHTML="Voir plus";
 }
 }
@@ -154,47 +171,56 @@ btn.innerHTML="Voir plus";
 
 <!-- MENU -->
 <div id="menu">
-<a href="#histoire">📜 Histoire</a>
-<a href="#patriarche">👑 Patriarche</a>
-<a href="#stihar">👕 STIHAR</a>
-<a href="#glossaire">📘 Glossaire</a>
-<a href="#contact">📩 Contact</a>
+
+#histoire">📜 Histoire</a>
+
+riarche">👑 Patriarche</a>
+
+stihar">👕 STIHAR</a>
+
+#contact">📩 Contact</a>
+
 </div>
 
 <!-- SLIDER -->
 <div class="slider">
-<div class="slide active"><img src="montgeron.jpg"></div>
-<div class="slide"><img src="patriarche.jpg"></div>
-<div class="slide"><img src="stihar.jpg"></div>
+
+<div class="slide active">
+montgeron.jpg
+</div>
+
+<div class="slide">
+patriarche.jpg
+</div>
+
+<div class="slide">
+stihar.jpg
+</div>
+
 </div>
 
 <!-- HISTOIRE -->
 <section id="histoire">
-<h2>📜 Histoire de l'Orthodoxie</h2>
+
+<h2>📜 Histoire</h2>
 
 <p>
-L’orthodoxie est l’une des plus anciennes traditions chrétiennes.
-Elle remonte directement aux apôtres de Jésus-Christ.
-Elle s’est développée dans l’Empire byzantin.
-Les liturgies sont longues et très riches.
-Les chants sont essentiels.
-La langue utilisée est le slavon.
+L’orthodoxie est une tradition chrétienne ancienne.
+Elle vient des apôtres et de l’Empire byzantin.
+Les cérémonies sont longues et chantées.
+La langue utilisée est le slavon, ancienne langue russe.
 </p>
 
-<div id="textMore" style="display:none;">
+<div id="more" style="display:none;">
+
 <p>
-Le slavon est une ancienne langue russe religieuse.
+Les églises sont décorées avec des icônes.
+Les fidèles allument des bougies pour prier.
+L’orthodoxie s’est séparée des catholiques en 1054.
+Elle est très présente en Russie et en Grèce.
 Les traditions sont restées très anciennes.
-Les églises orthodoxes sont magnifiques.
-On trouve des icônes partout.
-Les fidèles prient avec des bougies.
-Les cérémonies peuvent durer plusieurs heures.
-Les prêtres portent des vêtements spéciaux.
-L’Église orthodoxe s’est séparée des catholiques en 1054.
-Elle existe en Russie, en Grèce et en Europe de l’Est.
-Elle reste très fidèle à ses traditions.
-Les chants donnent une ambiance spirituelle unique.
 </p>
+
 </div>
 
 <button onclick="toggleText()" id="btn">Voir plus</button>
@@ -203,51 +229,39 @@ Les chants donnent une ambiance spirituelle unique.
 
 <!-- PATRIARCHE -->
 <section id="patriarche">
+
 <h2>👑 Patriarche Kirill</h2>
 
 patriarche.jpg
 
 <p>
-Le patriarche Kirill est le chef de l'Église orthodoxe russe.
-Il dirige les cérémonies importantes et guide les fidèles.
-Il joue un rôle essentiel dans la transmission de la foi.
+Kirill est le chef de l'Église orthodoxe russe.
+Il dirige les grandes cérémonies et guide les fidèles.
 </p>
 
 </section>
 
 <!-- STIHAR -->
 <section id="stihar">
+
 <h2>👕 STIHAR</h2>
 
 stihar.jpg
 
 <p>
-Le STIHAR est un vêtement liturgique porté par les prêtres 
-et les servants d’autel.
-Il n’est pas toujours noir, il peut être doré ou coloré.
-Les prêtres portent une croix autour du cou.
+Le STIHAR est un vêtement porté par les prêtres et servants d’autel.
+Il peut être coloré et symbolise la pureté.
 </p>
-
-</section>
-
-<!-- GLOSSAIRE -->
-<section id="glossaire">
-<h2>📘 Glossaire</h2>
-
-<ul>
-<li>Orthodoxie : branche ancienne du christianisme</li>
-<li>Slavon : ancienne langue religieuse russe</li>
-<li>Patriarche : chef de l’Église</li>
-<li>STIHAR : vêtement liturgique</li>
-<li>Icône : image religieuse</li>
-</ul>
 
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
+
 <h2>📩 Contact</h2>
+
 <p>konstantinnellou@gmail.com</p>
+
 </section>
 
 </body>
