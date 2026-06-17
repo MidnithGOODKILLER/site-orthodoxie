@@ -9,173 +9,218 @@ musique.mp3
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Orthodoxie</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orthodoxie</title>
 
 <style>
 
-/* FOND */
+/* BASE */
 body {
-    margin:0;
-    font-family: Arial;
-    background:url("montgeron.jpg") center/cover fixed;
-    color:white;
+margin:0;
+font-family: Arial, sans-serif;
+background:url("montgeron.jpg") center/cover fixed;
+color:white;
 }
 
 /* HEADER */
-header {
-    background: linear-gradient(90deg, black, red, gold);
-    padding:15px;
-    display:flex;
-    align-items:center;
+header{
+background:linear-gradient(90deg, black, red, gold);
+padding:15px;
+display:flex;
+align-items:center;
 }
 
-/* BURGER */
-.menu-btn {
-    font-size:25px;
-    cursor:pointer;
+.menu-btn{
+font-size:30px;
+cursor:pointer;
 }
 
-/* MENU DROITE */
-#menu {
-    position:fixed;
-    right:-300px;
-    top:0;
-    width:300px;
-    height:100%;
-    background:black;
-    transition:0.3s;
+/* MENU */
+#menu{
+position:fixed;
+right:-260px;
+top:0;
+width:260px;
+height:100%;
+background:black;
+transition:0.3s;
+padding-top:20px;
+z-index:999;
 }
 
-#menu a {
-    display:block;
-    padding:15px;
-    color:white;
-    text-decoration:none;
+#menu a{
+display:block;
+padding:15px;
+color:white;
+text-decoration:none;
 }
 
-#menu a:hover {
-    background:gold;
-    color:black;
+#menu a:hover{
+background:gold;
+color:black;
 }
-
-/* SLIDER */
-.slider {
-    position:relative;
-    height:60vh;
-}
-
-.slide {
-    position:absolute;
-    width:100%;
-    height:100%;
-    opacity:0;
-    transition:1.5s;
-}
-
-.slide img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.active {opacity:1;}
-
-.prev,.next {
-    position:absolute;
-    top:50%;
-    background:black;
-    padding:10px;
-    cursor:pointer;
-}
-
-.prev {left:10px;}
-.next {right:10px;}
 
 /* SECTIONS */
-section {
-    background:rgba(0,0,0,0.7);
-    margin:20px;
-    padding:20px;
-    border-radius:10px;
+section{
+background:rgba(0,0,0,0.7);
+margin:20px;
+padding:20px;
+border-radius:10px;
 }
 
-/* IMAGES ✅ */
-img {
-    width:100%;
-    border-radius:10px;
+/* IMAGE */
+img{
+width:100%;
+border-radius:10px;
 }
 
-/* BOUTON FLASH */
-button {
-    background:gold;
-    padding:10px;
-    animation:flash 1s infinite alternate;
+/* BUTTON */
+button{
+background:gold;
+padding:12px;
+border:none;
+cursor:pointer;
+margin-top:10px;
 }
 
-@keyframes flash {
-    from {box-shadow:0 0 5px gold;}
-    to {box-shadow:0 0 20px gold;}
+/* CALENDAR MODAL */
+#cal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
 }
 
-#plus {display:none;}
+.modal-content{
+background:black;
+margin:5% auto;
+padding:20px;
+width:90%;
+max-width:500px;
+border-radius:15px;
+text-align:center;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:5px;
+}
+
+.day{
+padding:10px;
+background:gold;
+color:black;
+border-radius:5px;
+}
+
+.today{
+background:red;
+color:white;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+section{margin:10px;}
+.menu-btn{font-size:25px;}
+}
 
 </style>
 
 <script>
 
-function openMenu(){ 
-    document.getElementById("menu").style.right="0"; 
+/* MENU */
+function openMenu(){
+document.getElementById("menu").style.right="0";
+}
+function closeMenu(){
+document.getElementById("menu").style.right="-260px";
 }
 
-function closeMenu(){ 
-    document.getElementById("menu").style.right="-300px"; 
+/* CALENDAR */
+let calVisible=false;
+
+function toggleCal(){
+let cal=document.getElementById("cal");
+
+calVisible=!calVisible;
+
+if(calVisible){
+cal.style.display="block";
+updateCal();
+}else{
+cal.style.display="none";
+}
 }
 
-/* SLIDER */
-let i=0;
+function updateCal(){
 
-function show(){
-    let slides=document.querySelectorAll(".slide");
-    slides.forEach(s=>s.classList.remove("active"));
-    slides[i].classList.add("active");
+let d=new Date();
+
+let jours=["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+let mois=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+
+document.getElementById("date").innerHTML=
+jours[d.getDay()]+" "+d.getDate()+" "+mois[d.getMonth()];
+
+/* FÊTES */
+let fetes={
+"1-7":"Noël orthodoxe",
+"1-19":"Baptême du Christ",
+"8-15":"Dormition",
+"12-6":"Saint Nicolas"
+};
+
+let key=(d.getMonth()+1)+"-"+d.getDate();
+
+document.getElementById("fete").innerHTML=
+fetes[key]||"Temps liturgique";
+
+/* EVANGILE */
+let evangiles=[
+"Saint Matthieu",
+"Saint Marc",
+"Saint Luc",
+"Saint Jean",
+"Lecture apostolique",
+"Lecture liturgique",
+"Lecture monastique"
+];
+
+document.getElementById("evangile").innerHTML=
+"Évangile de "+evangiles[d.getDay()];
+
+/* JEÛNE */
+let jeune = (d.getDay()==3 || d.getDay()==5)
+? "✅ Jeûne (pas de viande / lait)"
+: "❌ Pas de jeûne";
+
+document.getElementById("jeune").innerHTML=jeune;
+
+/* GRID */
+let grid=document.getElementById("grid");
+grid.innerHTML="";
+
+let days=new Date(d.getFullYear(), d.getMonth()+1,0).getDate();
+
+for(let i=1;i<=days;i++){
+
+let el=document.createElement("div");
+el.className="day";
+
+if(i==d.getDate()){
+el.classList.add("today");
 }
 
-function next(){
-    let slides=document.querySelectorAll(".slide");
-    i=(i+1)%slides.length;
-    show();
+el.innerHTML=i;
+grid.appendChild(el);
+
 }
 
-function prev(){
-    let slides=document.querySelectorAll(".slide");
-    i=(i-1+slides.length)%slides.length;
-    show();
-}
-
-/* AUTO */
-function auto(){
-    next();
-    setTimeout(auto,3000);
-}
-
-/* TEXTE */
-function toggleTexte(){
-    let txt=document.getElementById("plus");
-    let btn=document.getElementById("btn");
-
-    if(txt.style.display==="none"){
-        txt.style.display="block";
-        btn.innerHTML="Afficher moins";
-    }else{
-        txt.style.display="none";
-        btn.innerHTML="Afficher plus";
-    }
-}
-
-window.onload=function(){
-    show();
-    auto();
 }
 
 </script>
@@ -184,647 +229,84 @@ window.onload=function(){
 
 <body>
 
-<!-- ✅ MUSIQUE (IMPORTANT) -->
-<audio controls autoplay loop>
-<source src="musique.mp3" type="audio/mpeg">
-</audio>
-
 <header>
 <span class="menu-btn" onclick="openMenu()">☰</span>
 <h1 style="margin-left:20px;">Orthodoxie</h1>
 </header>
 
-<!-- ✅ MENU FONCTIONNEL -->
+<!-- MENU -->
 <div id="menu">
-<a href="#" onclick="closeMenu()">❌ Fermer</a>
-<a href="#slider">📸 Images</a>
-<a href="#histoire">📜 Histoire</a>
-<a href="#patriarche">👑 Patriarche</a>
-<a href="#stihar">👕 STIHAR</a>
-<a href="#eglise">⛪ Églises</a>
-<a href="#contact">📩 Contact</a>
+# onclick="closeMenu()">❌ Fermer</a>
+#histoire📜 Histoire</a>
+#patriarche👑 Patriarche</a>
+#contact📩 Contact</a>
 </div>
 
-<!-- ✅ SLIDER -->
-<div class="slider" id="slider">
-
-<div class="slide active">
-<img src="montgeron.jpg">
-</div>
-
-<div class="slide">
-<img src="patriarche.jpg">
-</div>
-
-<div class="slide">
-<img src="stihar.jpg">
-</div>
-
-<div class="prev" onclick="prev()">⬅</div>
-<div class="next" onclick="next()">➡</div>
-
-</div>
-
-<!-- ✅ HISTOIRE LONGUE -->
+<!-- HISTOIRE -->
 <section id="histoire">
-<h2>Histoire</h2>
-
+<h2>📜 Histoire</h2>
 <p>
-L’orthodoxie est une des plus anciennes traditions chrétiennes.
-Elle remonte directement aux apôtres.
-Elle s’est développée dans l’Empire byzantin.
-Elle a conservé ses traditions pendant des siècles.
-Les cérémonies sont longues et chantées.
+L’orthodoxie est une ancienne tradition chrétienne issue des apôtres.
+Elle conserve des rites anciens et utilise parfois le slavon,
+ancienne langue russe religieuse.
 </p>
-
-<p>
-La langue utilisée est le slavon,
-qui est une ancienne langue russe religieuse.
-Les chants sont très importants.
-Les églises sont décorées avec des icônes.
-Les fidèles allument des bougies.
-</p>
-
-<p id="plus">
-En 1054, il y a eu le grand schisme.
-Les orthodoxes se séparent des catholiques.
-Les traditions restent très anciennes.
-Les prêtres portent des vêtements appelés STIHAR.
-Ils portent aussi une croix autour du cou.
-Les cérémonies peuvent durer plusieurs heures.
-L’orthodoxie est très présente en Russie.
-Elle existe aussi en Grèce et en Europe de l’Est.
-Les églises ont souvent des dômes dorés.
-Elles sont magnifiques à l’intérieur.
-Les chants donnent une ambiance spirituelle.
-La lumière des bougies symbolise la foi.
-Les traditions sont respectées encore aujourd’hui.
-</p>
-
-<button id="btn" onclick="toggleTexte()">Afficher plus</button>
-
 </section>
 
-<!-- ✅ STIHAR -->
-<section id="stihar">
-<h2>STIHAR</h2>
-
-<img src="stihar.jpg">
-
-<p>
-Le STIHAR est un vêtement porté par les prêtres et servants d’autel.
-Il est souvent doré ou coloré.
-</p>
-
-</section>
-
-<!-- ✅ PATRIARCHE -->
+<!-- PATRIARCHE -->
 <section id="patriarche">
-<h2>Patriarche</h2>
+<h2>👑 Patriarche Kirill</h2>
 
 <img src="patriarche.jpg">
 
 <p>
-Le patriarche est le chef de l’Église orthodoxe.
+Le patriarche Kirill est le chef de l’Église orthodoxe russe.
+Il dirige les cérémonies importantes et guide les fidèles.
 </p>
-
-</section>
-
-<!-- ✅ EGLISE -->
-<section id="eglise">
-<h2>Église</h2>
-
-<img src="montgeron.jpg">
 
 <p>
-Exemples d’églises : Moscou et Montgeron.
+Il joue un rôle central dans la foi orthodoxe et dans la tradition.
 </p>
 
 </section>
 
-<!-- ✅ CONTACT -->
+<!-- IMAGE -->
+<section>
+<h2>⛪ Église</h2>
+<img src="montgeron.jpg">
+</section>
+
+<!-- CALENDRIER -->
+<section>
+<h2>📅 Calendrier Orthodoxe</h2>
+
+<button onclick="toggleCal()">Activer / Désactiver</button>
+
+</section>
+
+<!-- MODAL -->
+<div id="cal">
+<div class="modal-content">
+
+<h2>Calendrier du jour</h2>
+
+<p id="date"></p>
+
+<p><b>Fête :</b> <span id="fete"></span></p>
+<p><b>Évangile :</b> <span id="evangile"></span></p>
+<p><b>Jeûne :</b> <span id="jeune"></span></p>
+
+<div id="grid" class="grid"></div>
+
+<button onclick="toggleCal()">Fermer</button>
+
+</div>
+</div>
+
+<!-- CONTACT -->
 <section id="contact">
-<h2>Contact</h2>
+<h2>📩 Contact</h2>
 <p>konstantinnellou@gmail.com</p>
 </section>
 
 </body>
 </html>
-
-/* ✅ VERSION MOBILE RESPONSIVE */
-@media (max-width: 768px) {
-
-    body {
-        font-size: 14px;
-    }
-
-    header h1 {
-        font-size: 20px;
-    }
-
-    .slider {
-        height: 40vh; /* plus petit sur téléphone */
-    }
-
-    /* sections */
-    section {
-        margin: 10px;
-        padding: 15px;
-    }
-
-    /* images */
-    img {
-        width: 100%;
-        height: auto;
-    }
-
-    /* boutons slider plus petits */
-    .prev, .next, .pause {
-        padding: 5px;
-        font-size: 12px;
-    }
-
-    /* menu (hamburger) */
-    #menu {
-        width: 200px; /* plus petit sur téléphone */
-    }
-
-    #menu a {
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    /* bouton afficher plus */
-    button {
-        width: 100%;
-    }
-
-}
-
-<!-- CALENDRIER ORTHODOXE -->
-<section id="calendrier">
-
-<h2>📅 Calendrier des fêtes orthodoxes</h2>
-
-<p>
-L’Église orthodoxe utilise une ancienne langue appelée le slavon (ancienne langue russe).
-Les fêtes sont très importantes et certaines changent chaque année.
-</p>
-
-<ul>
-
-<li>✨ Noël orthodoxe : 7 janvier</li>
-
-<li>💧 Baptême du Christ : 19 janvier</li>
-
-<li>🌿 Dimanche des Rameaux</li>
-
-<li>🔥 Pâques (la fête la plus importante)</li>
-
-<li>🌅 Ascension</li>
-
-<li>🔥 Pentecôte</li>
-
-<li>🙏 Dormition de la Vierge : 15 août</li>
-
-<li>⛪ Exaltation de la Croix : 27 septembre</li>
-
-<li>🌟 Saint Nicolas : 6 décembre</li>
-
-</ul>
-
-<p>
-Ces fêtes suivent souvent le calendrier julien, différent du calendrier classique.
-</p>
-
-<!-- IMAGE ✅ (tu peux la mettre après) -->
-<img src="montgeron.jpg">
-
-</section>
-
-<!-- CALENDRIER ORTHODOXE -->
-<section id="calendrier">
-
-<h2>📅 Calendrier des fêtes orthodoxes</h2>
-
-<p>
-L’Église orthodoxe utilise une ancienne langue appelée le slavon (ancienne langue russe).
-Les fêtes sont très importantes et certaines changent chaque année.
-</p>
-
-<ul>
-
-<li>✨ Noël orthodoxe : 7 janvier</li>
-
-<li>💧 Baptême du Christ : 19 janvier</li>
-
-<li>🌿 Dimanche des Rameaux</li>
-
-<li>🔥 Pâques (la fête la plus importante)</li>
-
-<li>🌅 Ascension</li>
-
-<li>🔥 Pentecôte</li>
-
-<li>🙏 Dormition de la Vierge : 15 août</li>
-
-<li>⛪ Exaltation de la Croix : 27 septembre</li>
-
-<li>🌟 Saint Nicolas : 6 décembre</li>
-
-</ul>
-
-<p>
-Ces fêtes suivent souvent le calendrier julien, différent du calendrier classique.
-</p>
-
-<!-- IMAGE ✅ (tu peux la mettre après) -->
-<img src="montgeron.jpg">
-
-</section>
-
-#calendarPro {
-    background: rgba(0,0,0,0.8);
-    margin: 20px;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-}
-
-#calendarPro h2 {
-    color: gold;
-}
-
-#calendarPro p {
-    font-size: 18px;
-}
-``
-
-<script>
-
-let today = new Date();
-
-let jours = [
-"Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"
-];
-
-let mois = [
-"Janvier","Février","Mars","Avril","Mai","Juin",
-"Juillet","Août","Septembre","Octobre","Novembre","Décembre"
-];
-
-let date = jours[today.getDay()] + " " + today.getDate() + " " + mois[today.getMonth()] + " " + today.getFullYear();
-
-document.getElementById("date").innerHTML = date;
-
-/* Fêtes simples */
-let fetes = [
-"Noël orthodoxe",
-"Baptême du Christ",
-"Temps ordinaire",
-"Carême",
-"Pâques",
-"Période pascale",
-"Pentecôte"
-];
-
-/* Évangiles exemple */
-let evangiles = [
-"Lecture de Saint Matthieu",
-"Lecture de Saint Marc",
-"Lecture de Saint Luc",
-"Lecture de Saint Jean"
-];
-
-/* choix automatique */
-document.getElementById("fete").innerHTML = fetes[today.getDay()];
-document.getElementById("evangile").innerHTML = evangiles[today.getDay()];
-
-</script>
-``
-
-<!-- BOUTON OUVRIR CALENDRIER -->
-<button onclick="openCalendar()" style="margin:20px;padding:15px;background:gold;border:none;">
-📅 Ouvrir le calendrier orthodoxe
-</button>
-
-<!-- MODALE -->
-<div id="modalCal" class="modal">
-
-<div class="modal-content">
-
-<span class="close" onclick="closeCalendar()">✖</span>
-
-<h2>📅 Calendrier Orthodoxe</h2>
-
-<p id="dateFull"></p>
-
-<p><b>Fête du jour :</b> <span id="fete"></span></p>
-<p><b>Saint du jour :</b> <span id="saint"></span></p>
-<p><b>Évangile :</b> <span id="evangile"></span></p>
-
-<div class="calendar-grid" id="grid"></div>
-
-</div>
-</div>
-
-<!-- STYLE -->
-<style>
-
-.modal {
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-}
-
-.modal-content {
-background:black;
-color:white;
-margin:5% auto;
-padding:20px;
-width:90%;
-max-width:600px;
-border-radius:15px;
-text-align:center;
-}
-
-.close {
-cursor:pointer;
-float:right;
-font-size:20px;
-}
-
-.calendar-grid {
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:5px;
-margin-top:20px;
-}
-
-.day {
-padding:10px;
-background:rgba(255,215,0,0.3);
-border-radius:5px;
-cursor:pointer;
-}
-
-.day:hover {
-background:gold;
-color:black;
-}
-
-.today {
-border:2px solid red;
-}
-
-</style>
-
-<!-- SCRIPT -->
-<script>
-
-function openCalendar(){
-document.getElementById("modalCal").style.display="block";
-generateCalendar();
-updateDay();
-}
-
-function closeCalendar(){
-document.getElementById("modalCal").style.display="none";
-}
-
-/* DATE */
-let today=new Date();
-
-function updateDay(){
-
-let jours=["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
-let mois=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
-
-let full=jours[today.getDay()]+" "+today.getDate()+" "+mois[today.getMonth()]+" "+today.getFullYear();
-
-document.getElementById("dateFull").innerHTML=full;
-
-/* SIMULATION FÊTES MOBILES */
-let fetes=["Carême","Temps pascal","Pentecôte","Après Pentecôte","Jeûne","Fête des saints","Temps ordinaire"];
-let saints=["Saint Nicolas","Saint Georges","Saint Basile","Saint Jean","Saint Serge","Saint Séraphin","Saint Pierre"];
-let evangiles=["Matthieu","Marc","Luc","Jean","Évangile du jour","Lecture apostolique","Lecture liturgique"];
-
-document.getElementById("fete").innerHTML=fetes[today.getDay()];
-document.getElementById("saint").innerHTML=saints[today.getDay()];
-document.getElementById("evangile").innerHTML=evangiles[today.getDay()];
-
-}
-
-/* CALENDRIER VISUEL */
-function generateCalendar(){
-
-let grid=document.getElementById("grid");
-grid.innerHTML="";
-
-let daysInMonth=new Date(today.getFullYear(),today.getMonth()+1,0).getDate();
-
-for(let d=1;d<=daysInMonth;d++){
-
-let div=document.createElement("div");
-div.className="day";
-
-if(d===today.getDate()){
-div.classList.add("today");
-}
-
-div.innerHTML=d;
-
-div.onclick=function(){
-alert("📅 Jour "+d+" → Lecture et fête disponibles");
-};
-
-grid.appendChild(div);
-
-}
-
-}
-
-</script>
-
-#calendrier {
-    background: rgba(0,0,0,0.8);
-    margin: 20px;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-}
-
-#calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7,1fr);
-    gap: 5px;
-    margin-top: 20px;
-
-<section id="calendrier">
-
-<h2>📅 Calendrier Orthodoxe</h2>
-
-<p id="dateFull"></p>
-
-<p><b>Fête du jour :</b> <span id="fete"></span></p>
-
-<p><b>Saint du jour :</b> <span id="saint"></span></p>
-
-<p><b>Évangile :</b> <span id="evangile"></span></p>
-
-<div id="calendar-grid"></div>
-
-</section>
-
-<script>
-
-let today = new Date();
-
-let jours = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
-
-let mois = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
-
-/* DATE */
-document.getElementById("dateFull").innerHTML = 
-jours[today.getDay()] + " " + today.getDate() + " " + mois[today.getMonth()];
-
-/* FÊTES */
-let fetes = [
-"Temps ordinaire","Saint Nicolas","Carême","Pâques","Pentecôte","Jeûne","Après Pentecôte"
-];
-
-/* SAINTS */
-let saints = [
-"Saint Serge","Saint Basile","Saint Jean","Saint Pierre","Saint Paul","Saint Georges","Saint Séraphin"
-];
-
-/* ÉVANGILES */
-let evangiles = [
-"Saint Matthieu","Saint Marc","Saint Luc","Saint Jean","Lecture apostolique","Lecture liturgique","Lecture divine"
-];
-
-document.getElementById("fete").innerHTML = fetes[today.getDay()];
-document.getElementById("saint").innerHTML = saints[today.getDay()];
-document.getElementById("evangile").innerHTML = evangiles[today.getDay()];
-
-/* CALENDRIER VISUEL */
-let grid = document.getElementById("calendar-grid");
-
-let daysInMonth = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
-
-for (let d = 1; d <= daysInMonth; d++) {
-    let div = document.createElement("div");
-    div.className = "day";
-    div.innerHTML = d;
-
-    if (d === today.getDate()) {
-        div.classList.add("today");
-    }
-
-    grid.appendChild(div);
-}
-
-</script>
-
-#calendrier {
-    animation: fadeIn 1s ease-in-out;
-}
-
-/* animation apparait */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-.day {
-    padding: 10px;
-    background: gold;
-    color: black;
-    border-radius: 5px;
-    cursor: pointer;
-    animation: pop 0.5s ease;
-    transition: 0.3s;
-}
-
-/* effet apparition */
-@keyframes pop {
-    from {
-        transform: scale(0);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-day:hover {
-    background: white;
-    transform: scale(1.2);
-    box-shadow: 0 0 15px gold;
-}
-  border: 3px solid red;
-    background: red;
-    color: white;
-    animation: glow 1s infinite alternate;
-}
-
-/* lumière */
-@keyframes glow {
-    from {
-        box-shadow: 0 0 5px red;
-    }
-    to {
-        box-shadow: 0 0 20px red;
-    }
-}
-#calendrier {
-    position: relative;
-    background: rgba(0,0,0,0.8);
-    margin: 20px;
-    padding: 20px;
-    border-radius: 15px;
-    overflow: hidden;
-}
-
-/* FOND ANIMÉ */
-#calendrier::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, red, gold, purple, blue);
-    animation: rotateBG 8s linear infinite;
-    z-index: 0;
-    opacity: 0.3;
-}
-
-/* FAIRE PASSER LE TEXTE AU-DESSUS */
-#calendrier * {
-    position: relative;
-    z-index: 1;
-}
-
-/* ANIMATION */
-@keyframes rotateBG {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-#calendrier {
-    box-shadow: 0 0 20px gold;
-}
