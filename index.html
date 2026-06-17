@@ -10,22 +10,19 @@ nouveau.mp3
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>Orthodoxie</title>
 
 <style>
 
-/* FOND */
 body{
 margin:0;
-font-family: Arial;
-background: url("montgeron.jpg") center/cover fixed;
+font-family:Arial;
+background:url("montgeron.jpg") center/cover fixed;
 color:white;
 }
 
-/* HEADER */
 header{
-background: linear-gradient(90deg, black, red, gold);
+background:linear-gradient(90deg,black,red,gold);
 padding:15px;
 display:flex;
 align-items:center;
@@ -60,30 +57,7 @@ background:gold;
 color:black;
 }
 
-/* SLIDER */
-.slider{
-position:relative;
-height:60vh;
-overflow:hidden;
-}
-
-.slide{
-position:absolute;
-width:100%;
-height:100%;
-opacity:0;
-transition:1.5s;
-}
-
-.slide img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.active{opacity:1}
-
-/* sections */
+/* SECTIONS */
 section{
 background:rgba(0,0,0,0.7);
 margin:20px;
@@ -91,15 +65,14 @@ padding:20px;
 border-radius:10px;
 }
 
-/* bouton */
-button{
-background:gold;
-padding:12px;
-border:none;
-cursor:pointer;
+/* IMAGES ✅ */
+img{
+width:100%;
+border-radius:10px;
+margin-top:10px;
 }
 
-/* calendrier */
+/* CALENDRIER */
 #cal{
 display:none;
 position:fixed;
@@ -119,7 +92,13 @@ border-radius:10px;
 text-align:center;
 }
 
-/* grid */
+button{
+background:gold;
+padding:10px;
+border:none;
+cursor:pointer;
+}
+
 .grid{
 display:grid;
 grid-template-columns:repeat(7,1fr);
@@ -138,11 +117,6 @@ background:red;
 color:white;
 }
 
-/* responsive */
-@media(max-width:600px){
-.slider{height:40vh;}
-}
-
 </style>
 
 <script>
@@ -155,28 +129,8 @@ function closeMenu(){
 document.getElementById("menu").style.right="-260px";
 }
 
-/* SLIDER */
-let i=0;
-
-function showSlide(){
-let slides=document.querySelectorAll(".slide");
-slides.forEach(s=>s.classList.remove("active"));
-slides[i].classList.add("active");
-}
-
-function nextSlide(){
-let slides=document.querySelectorAll(".slide");
-i=(i+1)%slides.length;
-showSlide();
-}
-
-setInterval(nextSlide,3000);
-
-window.onload=showSlide;
-
 /* CALENDRIER */
 function toggleCal(){
-
 let c=document.getElementById("cal");
 
 if(c.style.display=="block"){
@@ -194,23 +148,24 @@ let mois=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Se
 document.getElementById("date").innerHTML=
 jours[d.getDay()]+" "+d.getDate()+" "+mois[d.getMonth()];
 
-/* EVANGILE RÉEL (visible texte) */
+/* EVANGILE ✅ */
 let evangiles=[
-"Matthieu 5:1-12",
-"Marc 2:1-12",
-"Luc 6:17-23",
-"Jean 1:1-18",
+"Matthieu 5:1-12 : Sermon sur la montagne",
+"Marc 2:1-12 : Guérison",
+"Luc 6:20 : Béatitudes",
+"Jean 1:1 : Au commencement",
 "Actes des apôtres",
-"Lecture du jour",
+"Lecture liturgique",
 "Épître"
 ];
 
-document.getElementById("evangile").innerHTML=evangiles[d.getDay()];
+document.getElementById("evangile").innerHTML=
+evangiles[d.getDay()];
 
 /* JEÛNE */
 document.getElementById("jeune").innerHTML=
 (d.getDay()==3||d.getDay()==5)?
-"✅ Jeûne (pas de viande ni produits laitiers)":
+"✅ Jour de jeûne":
 "❌ Pas de jeûne";
 
 /* GRID */
@@ -242,45 +197,62 @@ grid.appendChild(el);
 <h1 style="margin-left:20px;">Orthodoxie</h1>
 </header>
 
-<!-- MENU -->
+<!-- MENU ✅ CORRIGÉ -->
 <div id="menu">
-# onclick="closeMenu()">❌ Fermer</a>
-#histoire📜 Histoire</a>
-#patriarche👑 Patriarche</a>
-r">👕 STIHAR</a>
-#contact📩 Contact</a>
+Fermer</a>
+Histoire</a>
+Patriarche</a>
+STIHAR</a>
+Contact</a>
 </div>
 
-<!-- SLIDER -->
-<div class="slider">
-<div class="slide active">montgeron.jpg</div>
-<div class="slide">patriarche.jpg</div>
-<div class="slide">stihar.jpg</div>
-</div>
-
-<!-- HISTOIRE -->
+<!-- HISTOIRE (LONGUE ✅) -->
 <section id="histoire">
 <h2>📜 Histoire</h2>
-<p>L’orthodoxie est une tradition ancienne issue des apôtres.</p>
+
+<p>
+L’orthodoxie est une tradition chrétienne très ancienne.
+Elle remonte aux apôtres et conserve des traditions intactes depuis des siècles.
+Les cérémonies sont longues, chantées et riches en symboles.
+Les fidèles utilisent parfois le slavon, une ancienne langue russe religieuse.
+</p>
+
+<p>
+Les églises orthodoxes sont connues pour leurs dômes dorés et leurs icônes.
+Les croyants prient avec des bougies et participent activement aux liturgies.
+Les chants créent une ambiance spirituelle unique.
+</p>
+
+<p>
+Cette tradition est présente en Russie, en Grèce et en Europe de l’Est.
+Elle continue aujourd’hui à transmettre sa foi et ses valeurs.
+</p>
+
 </section>
 
-<!-- PATRIARCHE -->
+<!-- PATRIARCHE ✅ -->
 <section id="patriarche">
 <h2>👑 Patriarche Kirill</h2>
-patriarche.jpg
+
+img.png
+
 <p>
 Kirill est le patriarche de Moscou.
 Il dirige l’Église orthodoxe russe et guide les fidèles.
 </p>
+
 </section>
 
-<!-- STIHAR -->
+<!-- STIHAR ✅ -->
 <section id="stihar">
 <h2>👕 STIHAR</h2>
-stihar.jpg
+
+img.png
+
 <p>
-Le STIHAR est un vêtement porté par les prêtres et servants d’autel.
+Le stihar est un vêtement porté par les prêtres et les servants d’autel.
 </p>
+
 </section>
 
 <!-- CALENDRIER -->
@@ -291,9 +263,11 @@ Le STIHAR est un vêtement porté par les prêtres et servants d’autel.
 
 <div id="cal">
 <div class="modal">
-<h2>Calendrier</h2>
+
+<h2>Calendrier du jour</h2>
 
 <p id="date"></p>
+
 <p><b>Évangile :</b> <span id="evangile"></span></p>
 <p><b>Jeûne :</b> <span id="jeune"></span></p>
 
