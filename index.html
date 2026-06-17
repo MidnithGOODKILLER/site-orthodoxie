@@ -266,3 +266,94 @@ Il peut être coloré et symbolise la pureté.
 
 </body>
 </html>
+<section>
+<h2>📅 Calendrier interactif</h2>
+
+<div id="calendar"></div>
+
+<p id="infoJour"></p>
+
+</section>
+
+#calendar {
+display:grid;
+grid-template-columns: repeat(7, 1fr);
+gap:5px;
+margin:20px;
+}
+
+.day {
+background:gold;
+color:black;
+padding:10px;
+text-align:center;
+border-radius:5px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.day:hover {
+background:blue;
+transform:scale(1.2);
+}
+
+.today {
+background:turkeese;
+color:purple;
+}
+
+<script>
+
+let today = new Date();
+let calendar = document.getElementById("calendar");
+
+let year = today.getFullYear();
+let month = today.getMonth();
+
+/* nombre de jours */
+let days = new Date(year, month+1, 0).getDate();
+
+for(let i=1;i<=days;i++){
+
+let div = document.createElement("div");
+div.className="day";
+div.innerHTML = i;
+
+/* jour actuel */
+if(i === today.getDate()){
+div.classList.add("today");
+}
+
+/* clic */
+div.onclick = function(){
+
+let jour = new Date(year, month, i).getDay();
+
+/* évangile simple */
+let evangiles=[
+"Matthieu",
+"Marc",
+"Luc",
+"Jean",
+"Actes",
+"Épître",
+"Lecture"
+];
+
+/* jeûne */
+let jeun = (jour==3 || jour==5)
+? "✅ Jeûne (pas de viande)"
+: "❌ Pas de jeûne";
+
+document.getElementById("infoJour").innerHTML =
+"Jour : " + i +
+" | Évangile : " + evangiles[jour] +
+" | " + jeun;
+
+};
+
+calendar.appendChild(div);
+
+}
+
+</script>
