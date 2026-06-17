@@ -3,7 +3,7 @@
 montgeron.jpg                                                        
 patriarche.jpg
 stihar.jpg
-nouveau.mp3 
+nouveau.mp3 tton>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -13,17 +13,17 @@ nouveau.mp3
 
 <style>
 
-/* FOND */
+/* FOND CINÉMA */
 body{
 margin:0;
 font-family:Arial;
-background:linear-gradient(black, darkred);
+background:linear-gradient(black,darkred);
 color:white;
 }
 
 /* HEADER */
 header{
-background:linear-gradient(90deg, black, red, gold);
+background:linear-gradient(90deg,black,red,gold);
 padding:15px;
 display:flex;
 align-items:center;
@@ -40,8 +40,8 @@ cursor:pointer;
 /* MENU */
 #menu{
 position:fixed;
-top:0;
 right:-280px;
+top:0;
 width:280px;
 height:100%;
 background:black;
@@ -55,31 +55,28 @@ color:white;
 text-decoration:none;
 }
 
-#menu a:hover{
-background:gold;
-color:black;
-}
-
-/* SECTION */
+/* SECTIONS */
 section{
 background:rgba(0,0,0,0.7);
 margin:20px;
 padding:20px;
 border-radius:10px;
+transition:0.3s;
 }
 
-/* IMAGES */
+section:hover{
+box-shadow:0 0 20px gold;
+}
+
+/* IMAGE */
 img{
 width:100%;
 border-radius:10px;
+transition:0.5s;
 }
 
-/* STIHAR GRAND */
-.big{
-width:100%;
-max-height:500px;
-object-fit:cover;
-border:3px solid gold;
+img:hover{
+transform:scale(1.05);
 }
 
 /* CALENDRIER */
@@ -121,17 +118,22 @@ cursor:pointer;
 /* MENU */
 function toggleMenu(){
 let m=document.getElementById("menu");
-m.style.right = (m.style.right=="0px") ? "-280px" : "0px";
+m.style.right=(m.style.right=="0px")?"-280px":"0px";
 }
 
-/* CALENDRIER COMPLET */
-function createCal(){
+/* SCROLL MENU */
+function goTo(id){
+document.getElementById(id).scrollIntoView();
+toggleMenu();
+}
 
+/* CALENDRIER */
+function createCal(){
 let cal=document.getElementById("calendar");
 let info=document.getElementById("info");
 
 let d=new Date();
-let days=new Date(d.getFullYear(), d.getMonth()+1,0).getDate();
+let days=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
 
 for(let i=1;i<=days;i++){
 
@@ -139,56 +141,82 @@ let el=document.createElement("div");
 el.className="day";
 el.innerHTML=i;
 
-if(i==d.getDate()){
-el.classList.add("today");
-}
+if(i==d.getDate()){el.classList.add("today");}
 
 el.onclick=function(){
 
-let j=new Date(d.getFullYear(), d.getMonth(), i).getDay();
+let j=new Date(d.getFullYear(),d.getMonth(),i).getDay();
 
-/* ÉVANGILES (texte visible comme tu veux) */
-let evangiles=[
-"📖 Heureux les pauvres en esprit, car le royaume des cieux est à eux",
-"📖 Jésus enseigne le pardon et l’amour",
-"📖 Aimez vos ennemis et priez",
-"📖 Au commencement était la Parole",
-"📖 Les apôtres annoncent la foi",
-"📖 Lettre aux croyants",
-"📖 Lecture spirituelle"
+let ev=[
+"Heureux les pauvres en esprit...",
+"Jésus enseigne le pardon...",
+"Aimez vos ennemis...",
+"Au commencement était la Parole...",
+"Les apôtres annoncent Dieu...",
+"Lecture de l’épître...",
+"Lecture spirituelle"
 ];
 
-/* JEÛNE réaliste */
-let jeune=(j==3 || j==5)
-? "🔴 Jour de jeûne (mercredi / vendredi / Carême)"
-: "⚪ Pas de jeûne";
+let jeune=(j==3||j==5)
+?"🔴 Jeûne (mercredi/vendredi)"
+:"⚪ Pas de jeûne";
 
-/* affichage */
-info.innerHTML=evangiles[j]+"<br>"+jeune;
+info.innerHTML="📖 "+ev[j]+"<br>"+jeune;
 
 };
 
 cal.appendChild(el);
-
 }
-
 }
 
 /* QUIZ 10 QUESTIONS */
+let questions=[
+["Chef église ?","Pape","Patriarche",2],
+["Langue ?","Slavon","Anglais",1],
+["STIHAR ?","Vêtement","Livre",1],
+["Jour jeûne ?","Mercredi","Dimanche",1],
+["Foi ?","Chrétienne","Sport",1],
+["Icône ?","Image","Jeu",1],
+["Chant ?","Important","Inutile",1],
+["Eglise ?","Lieu","Jeu",1],
+["Patriarche ?","Kirill","Paul",1],
+["Nombre jours ?","7","5",1]
+];
+
+let qIndex=0;
 let score=0;
 
-function quiz(answer, correct){
+function showQ(){
 
-if(answer===correct){
-score++;
-document.getElementById("result").innerHTML="✅ Bonne réponse | Score : "+score;
-}else{
-document.getElementById("result").innerHTML="❌ Faux | Score : "+score;
+if(qIndex>=questions.length){
+document.getElementById("quizBox").innerHTML=
+"🏆 Score final : "+score+"/10";
+return;
 }
 
+let q=questions[qIndex];
+
+document.getElementById("q").innerHTML=q[0];
+document.getElementById("b1").innerHTML=q[1];
+document.getElementById("b2").innerHTML=q[2];
+
 }
 
-window.onload=createCal;
+function answer(choice){
+
+let correct=questions[qIndex][3];
+
+if(choice==correct){score++;}
+
+qIndex++;
+showQ();
+
+}
+
+window.onload=function(){
+createCal();
+showQ();
+}
 
 </script>
 
@@ -208,99 +236,56 @@ nouveau.mp3
 
 <!-- MENU -->
 <div id="menu">
-Accueil</a>
-#histoireHistoire</a>
-#patriarchePatriarche</a>
-#stiharSTIHAR</a>
-#calCalendrier</a>
-#quizQuiz</a>
-#contactContact</a>
+# onclick="goTo('histoire')">Histoire</a>
+# onclick="goTo('patriarche')">Patriarche</a>
+# onclick="goTo('stihar')">STIHAR</a>
+# onclick="goTo('cal')">Calendrier</a>
+# onclick="goTo('quiz')">Quiz</a>
+# onclick="goTo('contact')">Contact</a>
 </div>
 
 <!-- HISTOIRE -->
 <section id="histoire">
 <h2>📜 Histoire</h2>
-<p>
-L’orthodoxie est une tradition chrétienne ancienne.
-Elle vient des apôtres et de l’Empire byzantin.
-Elle utilise le slavon, ancienne langue religieuse russe.
-Les cérémonies sont longues et chantées.
-Les traditions sont restées très anciennes.
-</p>
+<p>L’orthodoxie est une tradition chrétienne ancienne issue des apôtres.</p>
 </section>
 
 <!-- PATRIARCHE -->
 <section id="patriarche">
 <h2>👑 Patriarche Kirill</h2>
-patriarche.jpg
-<p>Chef de l’Église orthodoxe russe.</p>
+<img src="patriarche.jpg">
 </section>
 
 <!-- STIHAR -->
 <section id="stihar">
-<h2>👕 STIHAR (grand)</h2>
-<img src="stihar.jpg" class="big">
-<p>Vêtement liturgique porté par les prêtres.</p>
+<h2>👕 STIHAR</h2>
+<img src="stihar.jpg">
 </section>
 
 <!-- CALENDRIER -->
 <section id="cal">
-<h2>📅 Calendrier Orthodoxe</h2>
+<h2>📅 Calendrier</h2>
 <div id="calendar"></div>
 <p id="info"></p>
 </section>
 
-<!-- QUIZ 10 QUESTIONS -->
+<!-- QUIZ -->
 <section id="quiz">
 <h2>🎮 Quiz 10 questions</h2>
 
-<p>1. Chef de l’Église ?</p>
-<button onclick="quiz('pape','patriarche')">Pape</button>
-<button onclick="quiz('patriarche','patriarche')">Patriarche</button>
+<p id="q"></p>
 
-<p>2. STIHAR ?</p>
-<button onclick="quiz('vetement','vetement')">Vêtement</button>
-<button onclick="quiz('livre','vetement')">Livre</button>
+<button onclick="answer(1)" id="b1"></button>
+<button onclick="answer(2)" id="b2"></button>
 
-<p>3. Langue ?</p>
-<button onclick="quiz('slavon','slavon')">Slavon</button>
-<button onclick="quiz('anglais','slavon')">Anglais</button>
+<div id="quizBox"></div>
 
-<p>4. Jour de jeûne ?</p>
-<button onclick="quiz('mercredi','mercredi')">Mercredi</button>
-<button onclick="quiz('dimanche','mercredi')">Dimanche</button>
-
-<p>5. Lieu principal ?</p>
-<button onclick="quiz('eglise','eglise')">Église</button>
-<button onclick="quiz('mosquee','eglise')">Mosquée</button>
-
-<p>6. Icône ?</p>
-<button onclick="quiz('image','image')">Image religieuse</button>
-<button onclick="quiz('jeu','image')">Jeu</button>
-
-<p>7. Chant ?</p>
-<button onclick="quiz('important','important')">Important</button>
-<button onclick="quiz('inutile','important')">Inutile</button>
-
-<p>8. Nombre de jours semaine ?</p>
-<button onclick="quiz('7','7')">7</button>
-<button onclick="quiz('5','7')">5</button>
-
-<p>9. Patriarche ?</p>
-<button onclick="quiz('kirill','kirill')">Kirill</button>
-<button onclick="quiz('paul','kirill')">Paul</button>
-
-<p>10. Foi ?</p>
-<button onclick="quiz('chretienne','chretienne')">Chrétienne</button>
-<button onclick="quiz('sport','chretienne')">Sport</button>
-
-<p id="result"></p>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
 <h2>📩 Contact</h2>
-<p>Pour plus de renseignements : konstantinnellou@gmail.com</p>
+<p>konstantinnellou@gmail.com</p>
 </section>
 
 </body>
